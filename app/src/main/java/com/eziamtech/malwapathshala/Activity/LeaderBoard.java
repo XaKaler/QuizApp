@@ -204,7 +204,8 @@ public class LeaderBoard extends AppCompatActivity {
                             }
                         }
 
-                    } else {
+                    }
+                    else {
                         Log.e("getLeaderBoard massage", "" + response.body().getMessage());
                     }
                 } catch (Exception e) {

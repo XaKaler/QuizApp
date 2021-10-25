@@ -75,7 +75,7 @@ public class Settings extends AppCompatActivity implements CompoundButton.OnChec
     SwitchCompat switchSound, switchVibration, switchPush;
     Spinner spinnerLanguage;
 
-    LinearLayout lyBack, lyToolbar, lyAbout, lyTermCondition, lyLogin, lyRateApp, lyShareApp;
+    LinearLayout lyBack, lyToolbar, lyAbout, lyTermCondition, lyLogin, lyRateApp, lyShareApp, lyBlog;
     TextView txtToolbarTitle, txtBack, txtLogin;
 
     TemplateView nativeTemplate = null;
@@ -171,6 +171,7 @@ public class Settings extends AppCompatActivity implements CompoundButton.OnChec
             lyRateApp = findViewById(R.id.lyRateApp);
             lyShareApp = findViewById(R.id.lyShareApp);
             lyLogin = findViewById(R.id.lyLogin);
+            lyBlog = findViewById(R.id.lyBlog);
             txtToolbarTitle = findViewById(R.id.txtToolbarTitle);
             txtBack = findViewById(R.id.txtBack);
             txtLogin = findViewById(R.id.txtLogin);
@@ -186,6 +187,9 @@ public class Settings extends AppCompatActivity implements CompoundButton.OnChec
             lyShareApp.setOnClickListener(this);
             lyRateApp.setOnClickListener(this);
             lyLogin.setOnClickListener(this);
+            lyBlog.setOnClickListener(v->{
+                startActivity(new Intent(this, BlogCategory.class));
+            });
         } catch (Exception e) {
             Log.e("init Exception ==>", "" + e);
         }
@@ -267,6 +271,9 @@ public class Settings extends AppCompatActivity implements CompoundButton.OnChec
             case R.id.lyAbout:
                 ShowAdByClick("ABOUTUS");
                 break;
+
+            case R.id.lyBlog:
+                //startActivity(new Intent(this, BlogListing.class));
 
             case R.id.lyTermCondition:
                 ShowAdByClick("PRIVACY");

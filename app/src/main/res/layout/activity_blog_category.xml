@@ -5,21 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".Activity.BlogListing">
+    tools:context=".Activity.BlogCategory">
 
-    <!--Toolbar-->
     <include layout="@layout/toolbar"
         android:id="@+id/include"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBlogListing"
+        android:id="@+id/rvBlogCategory"
         android:layout_width="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/include"
-        tools:listitem="@layout/single_blog_listing" />
+        tools:listitem="@layout/single_blog_category" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

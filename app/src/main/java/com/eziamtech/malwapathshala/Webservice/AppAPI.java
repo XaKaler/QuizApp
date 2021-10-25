@@ -1,5 +1,7 @@
 package com.eziamtech.malwapathshala.Webservice;
 
+import com.eziamtech.malwapathshala.Model.Blog.BlogListingModel;
+import com.eziamtech.malwapathshala.Model.BlogCategoryModel.BlogCategoryModel;
 import com.eziamtech.malwapathshala.Model.CategoryModel.CategoryModel;
 import com.eziamtech.malwapathshala.Model.ForgotPassModel.ForgotPassModel;
 import com.eziamtech.malwapathshala.Model.GeneralSettingsModel.GeneralSettingsModel;
@@ -111,5 +113,16 @@ public interface AppAPI {
     Call<SuccessModel> withdrawal_request(@Field("user_id") String user_id,
                                           @Field("payment_detail") String payment_detail,
                                           @Field("payment_type") String payment_type);
+
+
+    // For blogs
+    @GET("home/get_blog")
+    Call<BlogListingModel> getBlogListing();
+
+    // For blog category
+    @GET("home/get_blogcategory")
+    Call<BlogCategoryModel> getBlogCategory();
+
+
 
 }

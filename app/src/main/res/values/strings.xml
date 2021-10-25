@@ -204,5 +204,9 @@
     <string name="duration">Duration</string>
     <string name="pending">Pending</string>
     <string name="completed">Completed</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="blogs">Blogs</string>
+    <string name="BlogCategory">Blog Categories</string>
 
 </resources>

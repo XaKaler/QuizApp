@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="10dp"
+    android:id="@+id/clSingleBlogList"
+    android:background="@color/white"
     android:textAlignment="textStart">
 
     <ImageView
@@ -12,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/app_icon" />
@@ -20,10 +21,11 @@
     <TextView
         android:id="@+id/tvBlogListTitle"
         android:layout_width="wrap_content"
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/public_medium"
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="@dimen/activity_horizontal_margin"
         android:text="Blog title with some basic details Blog title with some basic detailsBlog title with some basic details"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,8 +36,9 @@
         android:id="@+id/tvBlogListLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:drawablePadding="10dp"
+        android:textColor="@color/black"
         android:fontFamily="@font/public_regular"
         android:text="Like"
         android:textAlignment="center"
@@ -52,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:drawablePadding="10dp"
+        android:textColor="@color/black"
         android:fontFamily="@font/public_regular"
         android:text="Comment"
         app:drawableStartCompat="@drawable/comment"
@@ -64,7 +68,8 @@
         android:id="@+id/tvBlogListShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:textColor="@color/black"
         android:drawablePadding="10dp"
         android:fontFamily="@font/public_regular"
         android:text="Share"
