@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "792258394769",
+    "project_id": "malwa-pathshala",
+    "storage_bucket": "malwa-pathshala.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792258394769:android:fafcf9aaa735f43d049d30",
+        "android_client_info": {
+          "package_name": "com.eziamtech.malwapathshala"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792258394769-6gpok6385vd514fsfnmoipn5in3gvleu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjmfc2-H_9M5wfg36DKO6vMilaAHg6gsE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792258394769-6gpok6385vd514fsfnmoipn5in3gvleu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

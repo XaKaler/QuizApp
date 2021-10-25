@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp"
+    android:textAlignment="textStart">
+
+    <ImageView
+        android:id="@+id/imgBlogList"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/app_icon" />
+
+    <TextView
+        android:id="@+id/tvBlogListTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/public_medium"
+        android:paddingHorizontal="10dp"
+        android:text="Blog title with some basic details Blog title with some basic detailsBlog title with some basic details"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imgBlogList"
+        app:layout_constraintTop_toBottomOf="@+id/imgBlogList" />
+
+    <TextView
+        android:id="@+id/tvBlogListLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/public_regular"
+        android:text="Like"
+        android:textAlignment="center"
+        app:drawableStartCompat="@drawable/ic_like"
+        app:layout_constraintBottom_toBottomOf="@+id/tvBlogListComment"
+        app:layout_constraintEnd_toStartOf="@+id/tvBlogListComment"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvBlogListComment" />
+
+    <TextView
+        android:id="@+id/tvBlogListComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/public_regular"
+        android:text="Comment"
+        app:drawableStartCompat="@drawable/comment"
+        app:layout_constraintEnd_toStartOf="@+id/tvBlogListShare"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvBlogListLike"
+        app:layout_constraintTop_toBottomOf="@+id/tvBlogListTitle" />
+
+    <TextView
+        android:id="@+id/tvBlogListShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/public_regular"
+        android:text="Share"
+        app:drawableStartCompat="@drawable/ic_share"
+        app:layout_constraintBottom_toBottomOf="@+id/tvBlogListComment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvBlogListComment"
+        app:layout_constraintTop_toTopOf="@+id/tvBlogListComment" />
+</androidx.constraintlayout.widget.ConstraintLayout>
