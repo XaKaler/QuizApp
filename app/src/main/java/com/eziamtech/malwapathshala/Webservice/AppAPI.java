@@ -3,6 +3,7 @@ package com.eziamtech.malwapathshala.Webservice;
 import com.eziamtech.malwapathshala.Model.Blog.BlogListingModel;
 import com.eziamtech.malwapathshala.Model.BlogCategoryModel.BlogCategoryModel;
 import com.eziamtech.malwapathshala.Model.BlogFeatures.BlogFeaturesModel;
+import com.eziamtech.malwapathshala.Model.BlogLanguage.BlogLanguageModel;
 import com.eziamtech.malwapathshala.Model.CategoryModel.CategoryModel;
 import com.eziamtech.malwapathshala.Model.ForgotPassModel.ForgotPassModel;
 import com.eziamtech.malwapathshala.Model.GeneralSettingsModel.GeneralSettingsModel;
@@ -10,6 +11,7 @@ import com.eziamtech.malwapathshala.Model.LeaderBoardModel.LeaderBoardModel;
 import com.eziamtech.malwapathshala.Model.LevelModel.LevelModel;
 import com.eziamtech.malwapathshala.Model.LoginRegiModel.LoginRegiModel;
 import com.eziamtech.malwapathshala.Model.ProfileModel.ProfileModel;
+import com.eziamtech.malwapathshala.Model.QuestionLanguage.QuestionLanguageModel;
 import com.eziamtech.malwapathshala.Model.QuestionModel.QuestionModel;
 import com.eziamtech.malwapathshala.Model.RecentQuizModel.RecentQuizModel;
 import com.eziamtech.malwapathshala.Model.SuccessModel.SuccessModel;
@@ -114,6 +116,22 @@ public interface AppAPI {
     Call<SuccessModel> withdrawal_request(@Field("user_id") String user_id,
                                           @Field("payment_detail") String payment_detail,
                                           @Field("payment_type") String payment_type);
+
+
+
+    // Change question language
+    @FormUrlEncoded
+    @POST("home/get_questiontranslation")
+    Call<QuestionLanguageModel> getChangedLanguageQuestion(@Field("question_id") String question_id,
+                                                           @Field("lang_id") String lang_id);
+
+
+    // Change blog language
+    @FormUrlEncoded
+    @POST("home/get_blogtranslation")
+    Call<BlogLanguageModel> getChangedLanguageBlog(@Field("blog_id") String blog_id,
+                                                   @Field("lang_id") String lang_id);
+
 
 
     // For blogs

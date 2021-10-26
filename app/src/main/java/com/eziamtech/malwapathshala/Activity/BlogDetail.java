@@ -3,9 +3,8 @@ package com.eziamtech.malwapathshala.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -13,17 +12,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.eziamtech.malwapathshala.BuildConfig;
 import com.eziamtech.malwapathshala.Model.Blog.Result;
+import com.eziamtech.malwapathshala.Model.BlogLanguage.BlogLanguageModel;
 import com.eziamtech.malwapathshala.R;
 import com.eziamtech.malwapathshala.Util.LocaleUtils;
 import com.eziamtech.malwapathshala.Util.PrefManager;
+import com.eziamtech.malwapathshala.Webservice.BaseURL;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+
+import java.util.List;
+
+import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BlogDetail extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -37,7 +44,11 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
     Result result;
     String currentLanguage = "en";
 
+    Boolean likeSelected = false;
+
     PrefManager prefManager;
+
+    int likeCount = 0, commentCount = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +99,9 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
 
         efbSelectLanguage.setOnClickListener(this);
 
+        //for temporary use
+        bottomNavigationView.setSelectedItemId(R.id.btmShare);
+
         // get data from intent
         Intent intent = getIntent();
         result = (Result) intent.getSerializableExtra("blog");
@@ -111,46 +125,58 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                 break;
 
             case R.id.efbSelectLanguage:
-                showLanguages();
+                showAndHideLanguage();
                 break;
 
             case R.id.fbEnglish:
-                setLocale("en");
+                changeQuestionLanguage("2", result.getId());
+                showAndHideLanguage();
                 break;
 
             case R.id.fabHindi:
-                setLocale("hi");
+                changeQuestionLanguage("3", result.getId());
+                showAndHideLanguage();
                 break;
 
             case R.id.fabUrdhu:
-                setLocale("ar");
+                changeQuestionLanguage("6", result.getId());
+                showAndHideLanguage();
                 break;
 
         }
     }
 
-    private void setLocale(String language) {
-        try {
-            Log.e("=>lan_name", "" + language);
-            Log.e("=>currentLanguage", "" + currentLanguage);
-            if (!language.equals(currentLanguage)) {
-                LocaleUtils.setSelectedLanguageId(language);
-                Intent i = BlogDetail.this.getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage(BlogDetail.this.getBaseContext().getPackageName());
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-                finish();
-            } else {
-//                Toasty.info(Settings.this, "" + getResources().getString(R.string.language_already_selected),
-//                        Toasty.LENGTH_SHORT).show();
+    private void changeQuestionLanguage(String languageId, String blogId) {
+        Call<BlogLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageBlog(blogId, languageId);
+        questionLanguageModelCall.enqueue(new Callback<BlogLanguageModel>() {
+            @Override
+            public void onResponse(Call<BlogLanguageModel> call, Response<BlogLanguageModel> response) {
+                if (response.code() == 200 && response.body().getStatus() == 200) {
+                    if (response.body().getResult().size() > 0) {
+                        List<com.eziamtech.malwapathshala.Model.BlogLanguage.Result> responseData = response.body().getResult();
+
+                        // set question image if available otherwise hide image view
+                        if (!responseData.get(0).getImage().equalsIgnoreCase("")) {
+                            tvBlogTitle.setText(responseData.get(0).getTitle());
+                            Picasso.get().load(responseData.get(0).getImage()).into(ivBlogImage);
+                            tvBlogInDetail.setText(responseData.get(0).getDetail());
+                        }
+                    } else {
+                        Toasty.error(getApplicationContext(), "This blog is not available in this language", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toasty.error(getApplicationContext(), "No blog found", Toast.LENGTH_LONG).show();
+                }
             }
 
-        } catch (Exception e) {
-            Log.e("error_msg", "" + e.getMessage());
-        }
+            @Override
+            public void onFailure(Call<BlogLanguageModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
-    private void showLanguages() {
+    private void showAndHideLanguage() {
 
         // set visibility
         if (!isAllFabVisible) {
@@ -187,12 +213,29 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                 break;
 
             case R.id.btmLike:
-                if(item.getIcon().equals(R.drawable.ic_like)){
-                    item.setIcon(R.drawable.ic_like_fill);
-                }
-                else{
+                //View item1 = findViewById(R.id.btmComment);
+                if (likeSelected) {
                     item.setIcon(R.drawable.ic_like);
+                    likeSelected = false;
+
+                    if (likeCount == 1) {
+                        item.setTitle("Like");
+                    } else {
+                        item.setTitle(String.valueOf(likeCount + 1));
+                    }
+                    likeCount -= 1;
+
+                } else {
+                    item.setIcon(R.drawable.ic_like_fill);
+                    item.setTitle(String.valueOf(likeCount + 1));
+                    likeSelected = true;
+                    likeCount += 1;
                 }
+                break;
+
+            case R.id.btmComment:
+                Intent commentIntent = new Intent(this, BlogComments.class);
+                startActivity(commentIntent);
                 break;
 
         }

@@ -3,6 +3,5 @@
 
     <item android:state_selected="false" android:drawable="@drawable/ic_like"/>
     <item android:state_selected="true" android:drawable="@drawable/ic_like_fill"/>
-    <item android:drawable="@drawable/ic_like"/>
 
 </selector>

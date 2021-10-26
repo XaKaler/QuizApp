@@ -12,10 +12,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.eziamtech.malwapathshala.Model.QuestionLanguage.QuestionLanguageModel;
 import com.eziamtech.malwapathshala.Model.QuestionModel.QuestionModel;
 import com.eziamtech.malwapathshala.Model.QuestionModel.Result;
 import com.eziamtech.malwapathshala.Model.SuccessModel.SuccessModel;
@@ -257,6 +259,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    @SuppressLint({"NonConstantResourceId", "UseCompatLoadingForDrawables"})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -277,19 +280,23 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.efbSelectLanguageQna:
-                showLanguages();
+                showAndHideLanguage();
                 break;
 
             case R.id.fbEnglishQna:
-                setLocale("en");
+               // setLocale("en");
+                changeQuestionLanguage("2", questionList.get(QueNo).getId());
+                showAndHideLanguage();
                 break;
 
             case R.id.fabHindiQna:
-                setLocale("hi");
+                changeQuestionLanguage("3", questionList.get(QueNo).getId());
+                showAndHideLanguage();
                 break;
 
             case R.id.fabUrdhuQna:
-                setLocale("ar");
+                changeQuestionLanguage("6", questionList.get(QueNo).getId());
+                showAndHideLanguage();
                 break;
 
             case R.id.lyOptionA:
@@ -399,7 +406,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    private void showLanguages() {
+    private void showAndHideLanguage() {
 
         // set visibility
         if(!isAllFabVisible) {
@@ -429,26 +436,55 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
         fabUrdhuQna.setOnClickListener(this);
     }
 
+    private void changeQuestionLanguage(String languageId, String questionId){
+        Call<QuestionLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageQuestion(questionId, languageId);
+        questionLanguageModelCall.enqueue(new Callback<QuestionLanguageModel>() {
+            @Override
+            public void onResponse(Call<QuestionLanguageModel> call, Response<QuestionLanguageModel> response) {
+                if(response.code() == 200 && response.body().getStatus() == 200){
+                    if(response.body().getResult().size() > 0){
+                        List<com.eziamtech.malwapathshala.Model.QuestionLanguage.Result> responseData = response.body().getResult();
 
-    private void setLocale(String language) {
-        try {
-            Log.e("=>lan_name", "" + language);
-            Log.e("=>currentLanguage", "" + currentLanguage);
-            if (!language.equals(currentLanguage)) {
-                LocaleUtils.setSelectedLanguageId(language);
-                Intent i = QuestionAnswer.this.getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage(QuestionAnswer.this.getBaseContext().getPackageName());
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-                finish();
-            } else {
-//                Toasty.info(Settings.this, "" + getResources().getString(R.string.language_already_selected),
-//                        Toasty.LENGTH_SHORT).show();
+                        // set question image if available otherwise hide image view
+                        if (!responseData.get(0).getImage().equalsIgnoreCase("")) {
+                            ivQuestion.setVisibility(View.VISIBLE);
+                            Picasso.get().load(responseData.get(0).getImage()).into(ivQuestion);
+                        } else {
+                            ivQuestion.setVisibility(View.GONE);
+                        }
+
+                        // set question and its options
+                        txtQuestion.setText("" + responseData.get(0).getQuestion());
+                        txtOptionA.setText("" + responseData.get(0).getOptionA());
+                        txtOptionB.setText("" + responseData.get(0).getOptionB());
+                        if (responseData.get(QueNo).getOptionC().equalsIgnoreCase("")) {
+                            lyOptionC.setVisibility(View.INVISIBLE);
+                        } else {
+                            lyOptionC.setVisibility(View.VISIBLE);
+                            txtOptionC.setText("" + responseData.get(0).getOptionC());
+                        }
+                        if (responseData.get(QueNo).getOptionD().equalsIgnoreCase("")) {
+                            lyOptionD.setVisibility(View.INVISIBLE);
+                        } else {
+                            lyOptionD.setVisibility(View.VISIBLE);
+                            txtOptionD.setText("" + responseData.get(0).getOptionD());
+                        }
+
+                    }
+                    else{
+                        Toasty.error(getApplicationContext(), "No question found in this language", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toasty.error(getApplicationContext(), "No question found", Toast.LENGTH_LONG).show();
+                }
             }
 
-        } catch (Exception e) {
-            Log.e("error_msg", "" + e.getMessage());
-        }
+            @Override
+            public void onFailure(Call<QuestionLanguageModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     //get_lavel API call

@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/btmLike"
-        android:icon="@drawable/ic_like"
+        android:icon="@drawable/selector_like_button"
         android:title="Like" />
     <item
         android:id="@+id/btmComment"

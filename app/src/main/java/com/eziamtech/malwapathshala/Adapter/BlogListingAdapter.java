@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eziamtech.malwapathshala.Activity.BlogComments;
 import com.eziamtech.malwapathshala.Activity.BlogDetail;
 import com.eziamtech.malwapathshala.Model.Blog.BlogListingModel;
 import com.eziamtech.malwapathshala.Model.Blog.Result;
@@ -33,6 +34,7 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
     Context context;
 
     Boolean isSelected = false;
+    int likeCount = 0;
 
     public BlogListingAdapter(List<Result> data, Context context, List<com.eziamtech.malwapathshala.Model.BlogFeatures.Result> featureData) {
         this.data = data;
@@ -73,17 +75,28 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
         holder.tvBlogListLike.setOnClickListener(v->{
             if(!isSelected) {
                 holder.tvBlogListLike.setSelected(true);
+                holder.tvBlogListLike.setText(String.valueOf(likeCount+=1));
+
                 isSelected = true;
             }
             else {
                 holder.tvBlogListLike.setSelected(false);
+                if(likeCount == 1){
+                    holder.tvBlogListLike.setText(context.getString(R.string.like));
+                    likeCount -= 1;
+                }
+                else {
+                    holder.tvBlogListLike.setText(String.valueOf(likeCount-=1));
+                }
                 isSelected = false;
             }
         });
 
         // when user click on comment button
         holder.tvBlogListComment.setOnClickListener(v->{
-
+            Intent commentIntent = new Intent(context, BlogComments.class);
+            commentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(commentIntent);
         });
         /*holder.tvBlogListShare.setOnClickListener(v -> {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
