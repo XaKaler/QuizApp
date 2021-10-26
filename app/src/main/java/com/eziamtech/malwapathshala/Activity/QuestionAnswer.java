@@ -20,11 +20,14 @@ import com.eziamtech.malwapathshala.Model.QuestionModel.QuestionModel;
 import com.eziamtech.malwapathshala.Model.QuestionModel.Result;
 import com.eziamtech.malwapathshala.Model.SuccessModel.SuccessModel;
 import com.eziamtech.malwapathshala.R;
+import com.eziamtech.malwapathshala.Util.LocaleUtils;
 import com.eziamtech.malwapathshala.Util.PrefManager;
 import com.eziamtech.malwapathshala.Util.Utility;
 import com.eziamtech.malwapathshala.Webservice.AppAPI;
 import com.eziamtech.malwapathshala.Webservice.BaseURL;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,11 +49,14 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
 
     ShimmerFrameLayout shimmer;
 
+    private ExtendedFloatingActionButton efbSelectLanguageQna;
+    private FloatingActionButton fbEnglishQna, fabHindiQna, fabUrdhuQna;
+
     ImageView ivQuestion;
     TextView txtToolbarTitle, txtQuestion, txtLevelNumber, txtQueNumber, txtTotalQue,
             txtRightAnswers, txtWrongAnswers, txtA, txtB, txtC, txtD, txtOptionA, txtOptionB,
             txtOptionC, txtOptionD, txtTickA, txtTickB, txtTickC, txtTickD,
-            txtAnswerit, txtNext, txtAnswerStatus;
+            txtAnswerit, txtNext, txtAnswerStatus, tvUrdhuQna, tvHindiQna, tvEnglishQna;
 
     CountdownView countdownTimer;
 
@@ -60,6 +66,10 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
 
     String levelID, catID, strAnswer = "", TotalLevel, currentLevel;
     int QueNo = 0, rightAnswers = 0, wrongAnswers = 0, attendedQue = 0;
+
+    Boolean isAllFabVisible;
+
+    String currentLanguage  = "en";
 
     MediaPlayer mpWrong, mpCorrect;
     Vibrator vibe;
@@ -78,6 +88,13 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
 
         init();
         GetQuestionByLevel();
+
+        // get current language
+        currentLanguage = prefManager.getValue("select_language");
+        Log.e("lan_currentLan", "" + currentLanguage);
+
+        currentLanguage = LocaleUtils.getSelectedLanguageId();
+        Log.e("currentLanguage", "" + currentLanguage);
 
         txtToolbarTitle.setText("" + getResources().getString(R.string.questions));
 
@@ -208,6 +225,26 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
             lyOptionC = findViewById(R.id.lyOptionC);
             lyOptionD = findViewById(R.id.lyOptionD);
 
+            efbSelectLanguageQna = findViewById(R.id.efbSelectLanguageQna);
+            fbEnglishQna = findViewById(R.id.fbEnglishQna);
+            fabHindiQna = findViewById(R.id.fabHindiQna);
+            fabUrdhuQna = findViewById(R.id.fabUrdhuQna);
+            tvHindiQna = findViewById(R.id.tvHindiQna);
+            tvEnglishQna = findViewById(R.id.tvEnglishQna);
+            tvUrdhuQna = findViewById(R.id.tvUrdhuQna);
+
+            //floating action buttons
+            fbEnglishQna.setVisibility(View.GONE);
+            fabUrdhuQna.setVisibility(View.GONE);
+            fabHindiQna.setVisibility(View.GONE);
+            tvEnglishQna.setVisibility(View.GONE);
+            tvHindiQna.setVisibility(View.GONE);
+            tvUrdhuQna.setVisibility(View.GONE);
+            isAllFabVisible = false;
+            efbSelectLanguageQna.shrink();
+
+            efbSelectLanguageQna.setOnClickListener(this);
+
             lyBack.setOnClickListener(this);
             txtAnswerit.setOnClickListener(this);
             txtNext.setOnClickListener(this);
@@ -237,6 +274,22 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
 
             case R.id.txtNext:
                 onNextFinish();
+                break;
+
+            case R.id.efbSelectLanguageQna:
+                showLanguages();
+                break;
+
+            case R.id.fbEnglishQna:
+                setLocale("en");
+                break;
+
+            case R.id.fabHindiQna:
+                setLocale("hi");
+                break;
+
+            case R.id.fabUrdhuQna:
+                setLocale("ar");
                 break;
 
             case R.id.lyOptionA:
@@ -342,6 +395,59 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
                     txtOptionA.setTextColor(getResources().getColor(R.color.text_color_primary));
                 }
                 break;
+        }
+    }
+
+
+    private void showLanguages() {
+
+        // set visibility
+        if(!isAllFabVisible) {
+            fbEnglishQna.setVisibility(View.VISIBLE);
+            fabUrdhuQna.setVisibility(View.VISIBLE);
+            fabHindiQna.setVisibility(View.VISIBLE);
+            tvEnglishQna.setVisibility(View.VISIBLE);
+            tvHindiQna.setVisibility(View.VISIBLE);
+            tvUrdhuQna.setVisibility(View.VISIBLE);
+            isAllFabVisible = true;
+            efbSelectLanguageQna.extend();
+        }
+        else{
+            fbEnglishQna.setVisibility(View.GONE);
+            fabUrdhuQna.setVisibility(View.GONE);
+            fabHindiQna.setVisibility(View.GONE);
+            tvEnglishQna.setVisibility(View.GONE);
+            tvHindiQna.setVisibility(View.GONE);
+            tvUrdhuQna.setVisibility(View.GONE);
+            isAllFabVisible = false;
+            efbSelectLanguageQna.shrink();
+        }
+
+        // click listener on floating action buttons
+        fbEnglishQna.setOnClickListener(this);
+        fabHindiQna.setOnClickListener(this);
+        fabUrdhuQna.setOnClickListener(this);
+    }
+
+
+    private void setLocale(String language) {
+        try {
+            Log.e("=>lan_name", "" + language);
+            Log.e("=>currentLanguage", "" + currentLanguage);
+            if (!language.equals(currentLanguage)) {
+                LocaleUtils.setSelectedLanguageId(language);
+                Intent i = QuestionAnswer.this.getBaseContext().getPackageManager()
+                        .getLaunchIntentForPackage(QuestionAnswer.this.getBaseContext().getPackageName());
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+            } else {
+//                Toasty.info(Settings.this, "" + getResources().getString(R.string.language_already_selected),
+//                        Toasty.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            Log.e("error_msg", "" + e.getMessage());
         }
     }
 

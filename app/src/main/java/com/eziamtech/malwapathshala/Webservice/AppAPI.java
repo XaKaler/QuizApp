@@ -2,6 +2,7 @@ package com.eziamtech.malwapathshala.Webservice;
 
 import com.eziamtech.malwapathshala.Model.Blog.BlogListingModel;
 import com.eziamtech.malwapathshala.Model.BlogCategoryModel.BlogCategoryModel;
+import com.eziamtech.malwapathshala.Model.BlogFeatures.BlogFeaturesModel;
 import com.eziamtech.malwapathshala.Model.CategoryModel.CategoryModel;
 import com.eziamtech.malwapathshala.Model.ForgotPassModel.ForgotPassModel;
 import com.eziamtech.malwapathshala.Model.GeneralSettingsModel.GeneralSettingsModel;
@@ -123,6 +124,12 @@ public interface AppAPI {
     @GET("home/get_blogcategory")
     Call<BlogCategoryModel> getBlogCategory();
 
+    // For blog like/comment/share
+    @GET("home/get_blogfeatures")
+    Call<BlogFeaturesModel> getBlogFeatures();
 
+   /* // Insert like/share/watch
+    @POST("home/blogstatus")
+    Call<>*/
 
 }

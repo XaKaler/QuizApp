@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/drawable/bottom_navigation_selector_like_button.xml" value="0.22552083333333334" />
+        <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/drawable/select_language_background.xml" value="0.22552083333333334" />
+        <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/drawable/selector_like_button.xml" value="0.22552083333333334" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/activity_blog_category.xml" value="0.209375" />
-        <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/activity_blog_detail.xml" value="0.209375" />
+        <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/activity_blog_comments.xml" value="0.209375" />
+        <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/activity_blog_detail.xml" value="0.18" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/activity_blog_listing.xml" value="0.209375" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/activity_category.xml" value="0.1953125" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/activity_forgot.xml" value="0.209375" />
@@ -18,13 +22,14 @@
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/shim_category.xml" value="0.209375" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/shim_level_selection.xml" value="0.209375" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/single_blog_category.xml" value="0.27936066712995133" />
-        <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/single_blog_listing.xml" value="0.18" />
+        <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/single_blog_listing.xml" value="0.25" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/subfragment_all.xml" value="0.209375" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/subfragment_month.xml" value="0.209375" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/subfragment_today.xml" value="0.209375" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/toolbar.xml" value="0.209375" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/welcome_slide1.xml" value="0.209375" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/layout/youtubeplayer.xml" value="0.209375" />
+        <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/menu/bottom_menu.xml" value="0.209375" />
         <entry key="..\:/Android Projects/Real/Quiz App/QuizApp/app/src/main/res/menu/menu.xml" value="0.209375" />
         <entry key="app/src/main/res/drawable/answer_it_gradient_bg.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/drawable/answer_selector.xml" value="0.25052083333333336" />

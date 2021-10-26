@@ -9,12 +9,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eziamtech.malwapathshala.Adapter.BlogListingAdapter;
 import com.eziamtech.malwapathshala.Model.Blog.BlogListingModel;
+import com.eziamtech.malwapathshala.Model.Blog.Result;
+import com.eziamtech.malwapathshala.Model.BlogFeatures.BlogFeaturesModel;
 import com.eziamtech.malwapathshala.R;
 import com.eziamtech.malwapathshala.Webservice.BaseURL;
 
+import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,6 +30,9 @@ public class BlogListing extends AppCompatActivity implements View.OnClickListen
     private RecyclerView rvBlogListing;
     TextView txtToolbarTitle, txtBack;
     LinearLayout lyBack, lyToolbar;
+
+    List<Result> blogListingModelResponse;
+    List<com.eziamtech.malwapathshala.Model.BlogFeatures.Result> blogFeatureModelResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +50,15 @@ public class BlogListing extends AppCompatActivity implements View.OnClickListen
     }
 
     private void setAdapter() {
-        rvBlogListing.setLayoutManager(new LinearLayoutManager(this));
+       rvBlogListing.setLayoutManager(new LinearLayoutManager(this));
 
-        // get data
+        // get data of blog listing
         Call<BlogListingModel> call = BaseURL.getVideoAPI().getBlogListing();
         call.enqueue(new Callback<BlogListingModel>() {
             @Override
             public void onResponse(Call<BlogListingModel> call, Response<BlogListingModel> response) {
                 assert response.body() != null;
-                BlogListingAdapter adapter = new BlogListingAdapter(response.body().getResult(), getApplicationContext());
+                BlogListingAdapter adapter = new BlogListingAdapter(response.body().getResult(), getApplicationContext(), getBlogFeature());
                 rvBlogListing.setAdapter(adapter);
             }
 
@@ -60,6 +69,20 @@ public class BlogListing extends AppCompatActivity implements View.OnClickListen
         });
     }
 
+    public List<com.eziamtech.malwapathshala.Model.BlogFeatures.Result> getBlogFeature(){
+        Call<BlogFeaturesModel> blogFeatureCall = BaseURL.getVideoAPI().getBlogFeatures();
+        blogFeatureCall.enqueue(new Callback<BlogFeaturesModel>() {
+            @Override
+            public void onResponse(Call<BlogFeaturesModel> call, Response<BlogFeaturesModel> response) {
+                blogFeatureModelResponse = response.body().getResult();
+            }
+            @Override
+            public void onFailure(Call<BlogFeaturesModel> call, Throwable t) {
+
+            }
+        });
+        return blogFeatureModelResponse;
+    }
     private void init() {
 
         try{

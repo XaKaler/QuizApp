@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:shimmer="http://schemas.android.com/tools"
@@ -18,6 +18,11 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:shimmer_duration="1200">
 
         <!-- Adding 3 rows of placeholders -->
@@ -34,13 +39,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <!--Main-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/lyBottom"
             android:background="@drawable/gradient_bg_theme"
             android:orientation="vertical">
 
@@ -680,27 +688,119 @@
 
         </LinearLayout>
 
-        <!--Message Bottom-->
-        <LinearLayout
-            android:id="@+id/lyBottom"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txtAnswerStatus"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/public_medium"
-                android:gravity="center"
-                android:textColor="@color/text_blue"
-                android:textSize="@dimen/default_text_15"
-                android:visibility="gone" />
-
-        </LinearLayout>
-
     </RelativeLayout>
 
-</LinearLayout>
+    <!--Message Bottom-->
+    <LinearLayout
+        android:id="@+id/lyBottom"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/txtAnswerStatus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/public_medium"
+            android:gravity="center"
+            android:textColor="@color/text_blue"
+            android:textSize="@dimen/default_text_15"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/efbSelectLanguageQna"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/colorAccent"
+        android:gravity="end"
+        android:padding="10dp"
+        android:text="Language"
+        app:icon="@drawable/ic_language"
+        app:iconPadding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/lyBottom"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbEnglishQna"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/efbSelectLanguageQna"
+        app:layout_constraintEnd_toEndOf="@+id/efbSelectLanguageQna"
+        app:srcCompat="@drawable/ic_english" />
+
+    <TextView
+        android:id="@+id/tvEnglishQna"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="English"
+        android:background="@drawable/select_language_background"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/fbEnglishQna"
+        app:layout_constraintEnd_toStartOf="@+id/fbEnglishQna"
+        app:layout_constraintTop_toTopOf="@+id/fbEnglishQna" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabHindiQna"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/fbEnglishQna"
+        app:layout_constraintEnd_toEndOf="@+id/fbEnglishQna"
+        app:srcCompat="@drawable/ic_devanagari_o" />
+
+    <TextView
+        android:id="@+id/tvHindiQna"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="हिंदी"
+        android:background="@drawable/select_language_background"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/fabHindiQna"
+        app:layout_constraintEnd_toStartOf="@+id/fabHindiQna"
+        app:layout_constraintTop_toTopOf="@+id/fabHindiQna" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabUrdhuQna"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/fabHindiQna"
+        app:layout_constraintEnd_toEndOf="@+id/fabHindiQna"
+        app:srcCompat="@drawable/ic_allah_word" />
+
+    <TextView
+        android:id="@+id/tvUrdhuQna"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="عربى"
+        android:background="@drawable/select_language_background"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/fabUrdhuQna"
+        app:layout_constraintEnd_toStartOf="@+id/fabUrdhuQna"
+        app:layout_constraintTop_toTopOf="@+id/fabUrdhuQna" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

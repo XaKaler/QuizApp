@@ -39,6 +39,9 @@
         tools:replace="android:appComponentFactory,android:allowBackup,android:label,android:usesCleartextTraffic"
         tools:targetApi="q">
         <activity
+            android:name=".Activity.BlogComments"
+            android:exported="false" />
+        <activity
             android:name=".Activity.BlogCategory"
             android:exported="false" />
         <activity
