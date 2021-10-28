@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,11 +43,8 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
     private FloatingActionButton fbEnglish, fabHindi, fabUrdhu;
     Boolean isAllFabVisible;
     Result result;
-    String currentLanguage = "en";
 
     Boolean likeSelected = false;
-
-    PrefManager prefManager;
 
     int likeCount = 0, commentCount = 5;
 
@@ -58,18 +56,9 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
 
         // get current language
         init();
-
-        currentLanguage = prefManager.getValue("select_language");
-        Log.e("lan_currentLan", "" + currentLanguage);
-
-        currentLanguage = LocaleUtils.getSelectedLanguageId();
-        Log.e("currentLanguage", "" + currentLanguage);
-
-
     }
 
     private void init() {
-        prefManager = new PrefManager(BlogDetail.this);
         tvBlogInDetail = findViewById(R.id.tvBlogInDetail);
         tvBlogTitle = findViewById(R.id.tvBlogTitle);
         ivBlogImage = findViewById(R.id.ivBlogImage);
@@ -106,7 +95,7 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
         Intent intent = getIntent();
         result = (Result) intent.getSerializableExtra("blog");
         tvBlogTitle.setText(result.getTitle());
-        tvBlogInDetail.setText(result.getDetail());
+        tvBlogInDetail.setText(stripHtml(result.getDetail()));
         Picasso.get().load(result.getImage()).into(ivBlogImage);
 
         /*txtToolbarTitle.setText(result.getTitle());
@@ -115,6 +104,15 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
         lyBack.setOnClickListener(this);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+    }
+
+    // strip or escape html tag
+    private String stripHtml(String detail) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(detail, Html.FROM_HTML_MODE_LEGACY).toString();
+        } else {
+            return Html.fromHtml(detail).toString();
+        }
     }
 
     @Override
@@ -147,7 +145,7 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
     }
 
     private void changeQuestionLanguage(String languageId, String blogId) {
-        Call<BlogLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageBlog(blogId, languageId);
+        Call<BlogLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageBlog();
         questionLanguageModelCall.enqueue(new Callback<BlogLanguageModel>() {
             @Override
             public void onResponse(Call<BlogLanguageModel> call, Response<BlogLanguageModel> response) {
@@ -161,11 +159,9 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                             Picasso.get().load(responseData.get(0).getImage()).into(ivBlogImage);
                             tvBlogInDetail.setText(responseData.get(0).getDetail());
                         }
-                    } else {
-                        Toasty.error(getApplicationContext(), "This blog is not available in this language", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toasty.error(getApplicationContext(), "No blog found", Toast.LENGTH_LONG).show();
+                    Toasty.error(getApplicationContext(), "No blog found \n "+response.body().getStatus()+response.body().getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
 

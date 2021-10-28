@@ -2,31 +2,35 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clSingleBlogList"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="10dp"
-    android:id="@+id/clSingleBlogList"
     android:background="@color/white"
     android:textAlignment="textStart">
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:src="@drawable/app_icon"
         android:id="@+id/imgBlogList"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        app:riv_corner_radius="5dp"
+        android:layout_height="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/app_icon" />
+        />
 
     <TextView
         android:id="@+id/tvBlogListTitle"
         android:layout_width="wrap_content"
-        android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/public_medium"
+        android:fontFamily="@font/public_semibold"
+        android:textStyle="bold"
+        android:lineSpacingMultiplier="1.3"
         android:paddingHorizontal="@dimen/activity_horizontal_margin"
         android:text="Blog title with some basic details Blog title with some basic detailsBlog title with some basic details"
+        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imgBlogList"
@@ -38,16 +42,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:drawablePadding="10dp"
-        android:src="@drawable/selector_like_button"
-        android:textColor="@color/black"
-        app:layout_constraintHorizontal_weight="1"
         android:fontFamily="@font/public_regular"
+        android:src="@drawable/selector_like_button"
         android:text="Like"
         android:textAlignment="center"
+        android:textColor="@color/black"
         app:drawableStartCompat="@drawable/selector_like_button"
         app:layout_constraintBottom_toBottomOf="@+id/tvBlogListComment"
         app:layout_constraintEnd_toStartOf="@+id/tvBlogListComment"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvBlogListComment" />
 
@@ -55,15 +59,15 @@
         android:id="@+id/tvBlogListComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:drawablePadding="10dp"
-        app:layout_constraintHorizontal_weight="1"
-        android:textColor="@color/black"
         android:fontFamily="@font/public_regular"
         android:text="Comment"
+        android:textColor="@color/black"
         app:drawableStartCompat="@drawable/comment"
         app:layout_constraintEnd_toStartOf="@+id/tvBlogListShare"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/tvBlogListLike"
         app:layout_constraintTop_toBottomOf="@+id/tvBlogListTitle" />
 
@@ -72,14 +76,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:textColor="@color/black"
-        app:layout_constraintHorizontal_weight="1"
         android:drawablePadding="10dp"
         android:fontFamily="@font/public_regular"
         android:text="Share"
+        android:textColor="@color/black"
         app:drawableStartCompat="@drawable/ic_share"
         app:layout_constraintBottom_toBottomOf="@+id/tvBlogListComment"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/tvBlogListComment"
-        app:layout_constraintTop_toTopOf="@+id/tvBlogListComment" />
+        app:layout_constraintTop_toTopOf="@+id/tvBlogListComment"/>
+
+
+    <View
+        android:id="@+id/lineView"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#C5C5C5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvBlogListComment" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -50,7 +51,13 @@ public class BlogListing extends AppCompatActivity implements View.OnClickListen
     }
 
     private void setAdapter() {
-       rvBlogListing.setLayoutManager(new LinearLayoutManager(this));
+        rvBlogListing.setLayoutManager(new LinearLayoutManager(this));
+
+        /*Intent intent = getIntent();
+        List<Result> blogs = (List<Result>) intent.getSerializableExtra("blogs");
+        txtToolbarTitle.setText(intent.getStringExtra("category_name");
+        BlogListingAdapter adapter = new BlogListingAdapter(blogs, getApplicationContext(), getBlogFeature());
+        rvBlogListing.setAdapter(adapter);*/
 
         // get data of blog listing
         Call<BlogListingModel> call = BaseURL.getVideoAPI().getBlogListing();
@@ -58,7 +65,7 @@ public class BlogListing extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onResponse(Call<BlogListingModel> call, Response<BlogListingModel> response) {
                 assert response.body() != null;
-                BlogListingAdapter adapter = new BlogListingAdapter(response.body().getResult(), getApplicationContext(), getBlogFeature());
+                BlogListingAdapter adapter = new BlogListingAdapter(response.body().getResult(), getApplicationContext());
                 rvBlogListing.setAdapter(adapter);
             }
 
@@ -69,23 +76,9 @@ public class BlogListing extends AppCompatActivity implements View.OnClickListen
         });
     }
 
-    public List<com.eziamtech.malwapathshala.Model.BlogFeatures.Result> getBlogFeature(){
-        Call<BlogFeaturesModel> blogFeatureCall = BaseURL.getVideoAPI().getBlogFeatures();
-        blogFeatureCall.enqueue(new Callback<BlogFeaturesModel>() {
-            @Override
-            public void onResponse(Call<BlogFeaturesModel> call, Response<BlogFeaturesModel> response) {
-                blogFeatureModelResponse = response.body().getResult();
-            }
-            @Override
-            public void onFailure(Call<BlogFeaturesModel> call, Throwable t) {
-
-            }
-        });
-        return blogFeatureModelResponse;
-    }
     private void init() {
 
-        try{
+        try {
             rvBlogListing = findViewById(R.id.rvBlogListing);
             txtToolbarTitle = findViewById(R.id.txtToolbarTitle);
             txtBack = findViewById(R.id.txtBack);
@@ -94,14 +87,14 @@ public class BlogListing extends AppCompatActivity implements View.OnClickListen
             lyBack = findViewById(R.id.lyBack);
 
             lyBack.setOnClickListener(this);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("init Exception ==>", "" + e);
         }
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.lyBack:
                 finish();
                 break;

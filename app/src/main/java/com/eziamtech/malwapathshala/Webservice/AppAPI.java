@@ -1,6 +1,7 @@
 package com.eziamtech.malwapathshala.Webservice;
 
 import com.eziamtech.malwapathshala.Model.Blog.BlogListingModel;
+import com.eziamtech.malwapathshala.Model.Blog.BlogStatusModel;
 import com.eziamtech.malwapathshala.Model.BlogCategoryModel.BlogCategoryModel;
 import com.eziamtech.malwapathshala.Model.BlogFeatures.BlogFeaturesModel;
 import com.eziamtech.malwapathshala.Model.BlogLanguage.BlogLanguageModel;
@@ -118,8 +119,10 @@ public interface AppAPI {
                                           @Field("payment_type") String payment_type);
 
 
-
     // Change question language
+    @POST("https://app.mysarthi.com/quiz/api/home/get_questiontranslation?question_id=1&lang_id=3")
+    Call<QuestionLanguageModel> getChangedLanguageQuestion();
+
     @FormUrlEncoded
     @POST("home/get_questiontranslation")
     Call<QuestionLanguageModel> getChangedLanguageQuestion(@Field("question_id") String question_id,
@@ -127,11 +130,13 @@ public interface AppAPI {
 
 
     // Change blog language
+    @POST("https://app.mysarthi.com/quiz/api/home/get_blogtranslation?blog_id=5&lang_id=3")
+    Call<BlogLanguageModel> getChangedLanguageBlog();
+
     @FormUrlEncoded
     @POST("home/get_blogtranslation")
     Call<BlogLanguageModel> getChangedLanguageBlog(@Field("blog_id") String blog_id,
                                                    @Field("lang_id") String lang_id);
-
 
 
     // For blogs
@@ -143,11 +148,25 @@ public interface AppAPI {
     Call<BlogCategoryModel> getBlogCategory();
 
     // For blog like/comment/share
-    @GET("home/get_blogfeatures")
+    @POST("https://app.mysarthi.com/quiz/api/home/get_blogfeatures?blog_id=5&lang_id=3")
     Call<BlogFeaturesModel> getBlogFeatures();
 
-   /* // Insert like/share/watch
+    @FormUrlEncoded
+    @POST("home/get_blogfeatures")
+    Call<BlogFeaturesModel> getBlogFeatures(@Field("blog_id") String blog_id,
+                                            @Field("lang_id") String lang_id);
+
+    // Insert like/share/watch
+    @POST("https://app.mysarthi.com/quiz/api/home/blogstatus?blog_id=5&lang_id=3&like=1")
+    Call<BlogStatusModel> updateStatus();
+
+    @FormUrlEncoded
     @POST("home/blogstatus")
-    Call<>*/
+    Call<BlogStatusModel> updateStatus(@Field("blog_id") String blog_id,
+                                       @Field("lang_id") String lang_id,
+                                       @Field("like") String like,
+                                       @Field("watch") String watch,
+                                       @Field("share") String share);
+
 
 }

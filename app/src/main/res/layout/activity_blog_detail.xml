@@ -18,6 +18,7 @@
         android:background="@color/white"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
+        android:layout_marginBottom="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/include">
@@ -44,8 +46,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
+                android:lineSpacingMultiplier="1.7"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:fontFamily="@font/public_semibold"
+                android:fontFamily="@font/public_regular"
+                android:textStyle="bold"
                 android:text="Blog title with some basic details Blog title with some basic details"
                 android:textAlignment="textStart"
                 android:textSize="24sp"
@@ -69,11 +73,15 @@
                 android:id="@+id/tvBlogInDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/public_medium"
-                android:text="Blog in details "
+                android:letterSpacing="0.01"
+                android:paddingBottom="200dp"
+                android:lineSpacingMultiplier="1.3"
+                android:text="Blog in details Blog in details Blog in details Blog in details Blog in details Blog in details Blog in details "
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,91 +90,92 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/efbSelectLanguage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:backgroundTint="@color/colorAccent"
-        android:gravity="end"
-        android:padding="10dp"
-        app:iconPadding="10dp"
-        android:text="Language"
-        app:icon="@drawable/ic_language"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/efbSelectLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:backgroundTint="@color/colorAccent"
+            android:gravity="end"
+            android:padding="10dp"
+            android:text="Language"
+            app:icon="@drawable/ic_language"
+            app:iconPadding="10dp"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbEnglish"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/efbSelectLanguage"
-        app:layout_constraintEnd_toEndOf="@+id/efbSelectLanguage"
-        app:srcCompat="@drawable/ic_english" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fbEnglish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toTopOf="@+id/efbSelectLanguage"
+            app:layout_constraintEnd_toEndOf="@+id/efbSelectLanguage"
+            app:srcCompat="@drawable/ic_english" />
 
-    <TextView
-        android:id="@+id/tvEnglish"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="English"
-        android:background="@drawable/select_language_background"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="5dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/fbEnglish"
-        app:layout_constraintEnd_toStartOf="@+id/fbEnglish"
-        app:layout_constraintTop_toTopOf="@+id/fbEnglish" />
+        <TextView
+            android:id="@+id/tvEnglish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/select_language_background"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="English"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/fbEnglish"
+            app:layout_constraintEnd_toStartOf="@+id/fbEnglish"
+            app:layout_constraintTop_toTopOf="@+id/fbEnglish" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabHindi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/fbEnglish"
-        app:layout_constraintEnd_toEndOf="@+id/fbEnglish"
-        app:srcCompat="@drawable/ic_devanagari_o" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabHindi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toTopOf="@+id/fbEnglish"
+            app:layout_constraintEnd_toEndOf="@+id/fbEnglish"
+            app:srcCompat="@drawable/ic_devanagari_o" />
 
-    <TextView
-        android:id="@+id/tvHindi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="हिंदी"
-        android:background="@drawable/select_language_background"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="5dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/fabHindi"
-        app:layout_constraintEnd_toStartOf="@+id/fabHindi"
-        app:layout_constraintTop_toTopOf="@+id/fabHindi" />
+        <TextView
+            android:id="@+id/tvHindi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/select_language_background"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="हिंदी"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/fabHindi"
+            app:layout_constraintEnd_toStartOf="@+id/fabHindi"
+            app:layout_constraintTop_toTopOf="@+id/fabHindi" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabUrdhu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/fabHindi"
-        app:layout_constraintEnd_toEndOf="@+id/fabHindi"
-        app:srcCompat="@drawable/ic_allah_word" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabUrdhu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toTopOf="@+id/fabHindi"
+            app:layout_constraintEnd_toEndOf="@+id/fabHindi"
+            app:srcCompat="@drawable/ic_allah_word" />
 
-    <TextView
-        android:id="@+id/tvUrdhu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="عربى"
-        android:background="@drawable/select_language_background"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="5dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/fabUrdhu"
-        app:layout_constraintEnd_toStartOf="@+id/fabUrdhu"
-        app:layout_constraintTop_toTopOf="@+id/fabUrdhu" />
+        <TextView
+            android:id="@+id/tvUrdhu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/select_language_background"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="عربى"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/fabUrdhu"
+            app:layout_constraintEnd_toStartOf="@+id/fabUrdhu"
+            app:layout_constraintTop_toTopOf="@+id/fabUrdhu" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

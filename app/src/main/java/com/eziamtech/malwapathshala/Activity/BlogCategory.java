@@ -2,6 +2,7 @@ package com.eziamtech.malwapathshala.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -9,9 +10,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.eziamtech.malwapathshala.Adapter.SingleBlogCategoryAdapter;
+import com.eziamtech.malwapathshala.Adapter.BlogCategoryAdapter;
 import com.eziamtech.malwapathshala.Model.BlogCategoryModel.BlogCategoryModel;
-import com.eziamtech.malwapathshala.Model.BlogCategoryModel.Result;
 import com.eziamtech.malwapathshala.R;
 import com.eziamtech.malwapathshala.Webservice.BaseURL;
 
@@ -46,7 +46,7 @@ public class BlogCategory extends AppCompatActivity {
         txtToolbarTitle = findViewById(R.id.txtToolbarTitle);
         txtBack = findViewById(R.id.txtBack);
         rvBlogCategory = findViewById(R.id.rvBlogCategory);
-        rvBlogCategory.setLayoutManager(new GridLayoutManager(this, 2));
+        rvBlogCategory.setLayoutManager(new LinearLayoutManager(this));
 
 
         // get data
@@ -54,7 +54,7 @@ public class BlogCategory extends AppCompatActivity {
         call.enqueue(new Callback<BlogCategoryModel>() {
             @Override
             public void onResponse(Call<BlogCategoryModel> call, Response<BlogCategoryModel> response) {
-                SingleBlogCategoryAdapter adapter = new SingleBlogCategoryAdapter(response.body().getResult(), getApplicationContext());
+                BlogCategoryAdapter adapter = new BlogCategoryAdapter(response.body().getResult(), getApplicationContext());
                 rvBlogCategory.setAdapter(adapter);
             }
 

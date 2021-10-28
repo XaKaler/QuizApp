@@ -94,7 +94,9 @@
                         </LinearLayout>
 
                     </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
+
             </LinearLayout>
 
             <!--Member Logo and Company Name-->
