@@ -56,16 +56,28 @@ public class BlogCategoryAdapter extends RecyclerView.Adapter<BlogCategoryAdapte
 
         // click listeners
         holder.cvCategory.setOnClickListener(v -> {
-            getBlog(data.get(position).getId());
+            // call to get all blog related to category
+            /*Call<BlogListingModel> call = BaseURL.getVideoAPI().getBlogListing();
+            call.enqueue(new Callback<BlogListingModel>() {
+                @Override
+                public void onResponse(Call<BlogListingModel> call, Response<BlogListingModel> response) {
+                    try {
+                        if (response.code() == 200 && response.body().getStatus() == 200) {
+                            if (response.body().getResult().size() > 0) {
+                                blogAvailable = true;
+                                categoryBlog = response.body().getResult();
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
-           /* if (blogAvailable) {
-                Intent intent = new Intent(context, BlogListing.class);
-                intent.putExtra("blogs", (Parcelable) categoryBlog);
-                intent.putExtra("category_name",  data.get(position).getName());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-            else Toast.makeText(context, "No blog available for "+categoryName, Toast.LENGTH_SHORT).show();*/
+                @Override
+                public void onFailure(Call<BlogListingModel> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });*/
 
             Intent intent = new Intent(context, BlogListing.class);
             intent.putExtra("cat_id", data.get(position).getId());
@@ -75,23 +87,7 @@ public class BlogCategoryAdapter extends RecyclerView.Adapter<BlogCategoryAdapte
     }
 
     private void getBlog(String id) {
-        Call<BlogListingModel> call = BaseURL.getVideoAPI().getBlogListing();
-        call.enqueue(new Callback<BlogListingModel>() {
-            @Override
-            public void onResponse(Call<BlogListingModel> call, Response<BlogListingModel> response) {
-                if(response.code() == 200 && response.body().getStatus() == 200) {
-                    if(response.body().getResult().size()>0) {
-                        blogAvailable = true;
-                        categoryBlog = response.body().getResult();
-                    }
-                }
-            }
 
-            @Override
-            public void onFailure(Call<BlogListingModel> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.eziamtech.malwapathshala.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ClipData;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -15,11 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eziamtech.malwapathshala.Model.Blog.BlogStatusModel;
 import com.eziamtech.malwapathshala.Model.Blog.Result;
+import com.eziamtech.malwapathshala.Model.BlogFeatures.BlogFeaturesModel;
 import com.eziamtech.malwapathshala.Model.BlogLanguage.BlogLanguageModel;
+import com.eziamtech.malwapathshala.Model.ProfileModel.ProfileModel;
 import com.eziamtech.malwapathshala.R;
-import com.eziamtech.malwapathshala.Util.LocaleUtils;
-import com.eziamtech.malwapathshala.Util.PrefManager;
+import com.eziamtech.malwapathshala.Util.Utility;
+import com.eziamtech.malwapathshala.Webservice.AppAPI;
 import com.eziamtech.malwapathshala.Webservice.BaseURL;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -46,16 +49,50 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
 
     Boolean likeSelected = false;
 
-    int likeCount = 0, commentCount = 5;
+    int likeCount = 0, commentCount = 0, shareCount = 0, watchCount = 0;
+    private String lang_id = "1", blog_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog_detail);
 
-
-        // get current language
         init();
+
+        // get like/share/watch of current blog
+        getBlogFeature();
+
+        // set like count
+        if (likeCount != 0)
+            bottomNavigationView.getMenu().getItem(0).setTitle(String.valueOf(likeCount));
+    }
+
+    private void getBlogFeature() {
+        // get like/comment/share of current position blog
+        Call<BlogFeaturesModel> blogFeatureCall = BaseURL.getVideoAPI().getBlogFeatures("" + result.getId(), "" + lang_id);
+        Log.d("12345", "blog id and lang id is " +result.getId()+" - " + lang_id);
+        blogFeatureCall.enqueue(new Callback<BlogFeaturesModel>() {
+            @Override
+            public void onResponse(Call<BlogFeaturesModel> call, Response<BlogFeaturesModel> response) {
+                if (response.code() == 200 && response.body().getStatus() == 200) {
+                    Log.d("12345", "blog_success_response" + response.body().getStatus().toString());
+                    // if like/share/comment is available
+                    if (response.body().getResult().size() > 0) {
+                        // initialize like/share/watch count
+                        likeCount = Integer.parseInt(response.body().getResult().get(0).getLikes());
+                        shareCount = Integer.parseInt(response.body().getResult().get(0).getShare());
+                        watchCount = Integer.parseInt(response.body().getResult().get(0).getWatch());
+                    }
+                }
+                Log.d("12345", "blog_feature response = " + response.code() + " " + response.body().getStatus());
+            }
+
+            @Override
+            public void onFailure(Call<BlogFeaturesModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
     }
 
     private void init() {
@@ -94,12 +131,13 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
         // get data from intent
         Intent intent = getIntent();
         result = (Result) intent.getSerializableExtra("blog");
-        tvBlogTitle.setText(result.getTitle());
+       tvBlogTitle.setText(result.getTitle());
         tvBlogInDetail.setText(stripHtml(result.getDetail()));
-        Picasso.get().load(result.getImage()).into(ivBlogImage);
+       Picasso.get().load(result.getImage()).into(ivBlogImage);
 
-        /*txtToolbarTitle.setText(result.getTitle());
-        txtToolbarTitle.setTextColor(getResources().getColor(R.color.text_blue));*/
+        // initialize blog id for later use
+        blog_id = result.getId();
+
         txtBack.setBackgroundTintList(getResources().getColorStateList(R.color.text_blue));
         lyBack.setOnClickListener(this);
 
@@ -127,41 +165,52 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                 break;
 
             case R.id.fbEnglish:
-                changeQuestionLanguage("2", result.getId());
+                tvBlogTitle.setText(result.getTitle());
+                tvBlogInDetail.setText(stripHtml(result.getDetail()));
+                Picasso.get().load(result.getImage()).into(ivBlogImage);
+                //changeBlogLanguage("2", result.getId());
                 showAndHideLanguage();
                 break;
 
             case R.id.fabHindi:
-                changeQuestionLanguage("3", result.getId());
+                changeBlogLanguage("3", result.getId());
                 showAndHideLanguage();
                 break;
 
             case R.id.fabUrdhu:
-                changeQuestionLanguage("6", result.getId());
+                changeBlogLanguage("6", result.getId());
                 showAndHideLanguage();
                 break;
 
         }
     }
 
-    private void changeQuestionLanguage(String languageId, String blogId) {
+    private void changeBlogLanguage(String languageId, String blogId) {
         Call<BlogLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageBlog();
         questionLanguageModelCall.enqueue(new Callback<BlogLanguageModel>() {
             @Override
             public void onResponse(Call<BlogLanguageModel> call, Response<BlogLanguageModel> response) {
-                if (response.code() == 200 && response.body().getStatus() == 200) {
-                    if (response.body().getResult().size() > 0) {
-                        List<com.eziamtech.malwapathshala.Model.BlogLanguage.Result> responseData = response.body().getResult();
+                try {
+                    if (response.code() == 200 && response.body().getStatus() == 200) {
+                        if (response.body().getResult().size() > 0) {
+                            List<com.eziamtech.malwapathshala.Model.BlogLanguage.Result> responseData = response.body().getResult();
 
-                        // set question image if available otherwise hide image view
-                        if (!responseData.get(0).getImage().equalsIgnoreCase("")) {
-                            tvBlogTitle.setText(responseData.get(0).getTitle());
-                            Picasso.get().load(responseData.get(0).getImage()).into(ivBlogImage);
-                            tvBlogInDetail.setText(responseData.get(0).getDetail());
+                            // set question image if available otherwise hide image view
+                            if (!responseData.get(0).getImage().equalsIgnoreCase(""))
+                                Picasso.get().load(responseData.get(0).getImage()).into(ivBlogImage);
+                            else
+                                ivBlogImage.setVisibility(View.GONE);
+
+                            tvBlogTitle.setText(stripHtml(responseData.get(0).getTitle()));
+                            tvBlogInDetail.setText(stripHtml(responseData.get(0).getDetail()));
+
+                            lang_id = responseData.get(0).getLangId();
                         }
+                    } else {
+                        Toasty.error(getApplicationContext(), "No blog found \n " + response.body().getStatus() + response.body().getMessage(), Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Toasty.error(getApplicationContext(), "No blog found \n "+response.body().getStatus()+response.body().getMessage(), Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -209,28 +258,66 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                 break;
 
             case R.id.btmLike:
-                //View item1 = findViewById(R.id.btmComment);
-                if (likeSelected) {
-                    item.setIcon(R.drawable.ic_like);
-                    likeSelected = false;
+                // if user not like yet
+                if (!likeSelected) {
+                    Log.d("12345", blog_id+" "+likeCount+" "+shareCount+" "+watchCount+" "+lang_id);
+                    Call<BlogStatusModel> blogStatusModelCall = BaseURL.getVideoAPI()
+                            .updateStatus("" + blog_id, "" + lang_id, "" + likeCount + 1, "" + watchCount, "" + shareCount);
+                    blogStatusModelCall.enqueue(new Callback<BlogStatusModel>() {
+                        @Override
+                        public void onResponse(Call<BlogStatusModel> call, Response<BlogStatusModel> response) {
+                            try {
+                                // if like update in db successfully
+                                if (response.code() == 200 & response.body().getStatus() == 200) {
+                                    item.setIcon(R.drawable.ic_like_fill);
+                                    item.setTitle(String.valueOf(likeCount += 1));
+                                    likeSelected = true;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Log.d("add like exception", e.toString());
+                            }
+                        }
 
-                    if (likeCount == 1) {
-                        item.setTitle("Like");
-                    } else {
-                        item.setTitle(String.valueOf(likeCount + 1));
-                    }
-                    likeCount -= 1;
+                        @Override
+                        public void onFailure(Call<BlogStatusModel> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                }
 
-                } else {
-                    item.setIcon(R.drawable.ic_like_fill);
-                    item.setTitle(String.valueOf(likeCount + 1));
-                    likeSelected = true;
-                    likeCount += 1;
+                // if user already like
+                else {
+                    Call<BlogStatusModel> blogStatusModelCall = BaseURL.getVideoAPI()
+                            .updateStatus("" + blog_id, "" + lang_id, "" + (likeCount + 1), "" + watchCount, "" + shareCount);
+                    blogStatusModelCall.enqueue(new Callback<BlogStatusModel>() {
+                        @Override
+                        public void onResponse(Call<BlogStatusModel> call, Response<BlogStatusModel> response) {
+                            try {
+                                // if like update in db successfully
+                                if (response.code() == 200 & response.body().getStatus() == 200) {
+                                    item.setIcon(R.drawable.ic_like);
+                                    item.setTitle(String.valueOf(likeCount -= 1));
+                                    likeSelected = false;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Log.d("remove like exception", e.toString());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<BlogStatusModel> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
                 }
                 break;
 
             case R.id.btmComment:
                 Intent commentIntent = new Intent(this, BlogComments.class);
+                commentIntent.putExtra("blog_id", result.getId());
+                commentIntent.putExtra("lang_id", lang_id);
                 startActivity(commentIntent);
                 break;
 

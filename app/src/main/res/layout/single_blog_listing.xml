@@ -9,12 +9,11 @@
     android:background="@color/white"
     android:textAlignment="textStart">
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <ImageView
         android:src="@drawable/app_icon"
         android:id="@+id/imgBlogList"
         android:layout_width="match_parent"
-        app:riv_corner_radius="5dp"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -3,51 +3,65 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="15dp">
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <!-- <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgCommenterImage"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:src="@drawable/app_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/comment_background"
-        android:orientation="vertical"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgCommenterImage"
-        app:layout_constraintTop_toTopOf="@+id/imgCommenterImage">
+        app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/tvCommenterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/public_bold"
-            android:textStyle="bold"
-            android:textColor="@color/black"
+            android:text="Anonymous"
+            android:layout_marginHorizontal="10dp"
             android:textSize="12sp"
-            android:text="Commenter name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/tvComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:fontFamily="@font/public_bold"
             android:text="comment of current user"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCommenterName" />
+
+
+        <TextView
+            android:id="@+id/tvCommentTiming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:drawablePadding="10dp"
+            android:layout_marginHorizontal="10dp"
             android:fontFamily="@font/public_regular"
-            app:layout_constraintStart_toStartOf="@+id/tvCommenterName"
-            app:layout_constraintTop_toBottomOf="@+id/tvCommenterName" />
+            android:text="2021-10-23 11:51:46"
+            android:textSize="12sp"
+            app:drawableStartCompat="@drawable/ic_outline_watch_later_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvComment" />
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <View
+            android:id="@+id/btmLine"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCommentTiming" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

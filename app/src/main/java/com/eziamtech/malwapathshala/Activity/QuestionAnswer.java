@@ -71,7 +71,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
 
     Boolean isAllFabVisible;
 
-    String currentLanguage  = "en";
+    String currentLanguage = "en";
 
     MediaPlayer mpWrong, mpCorrect;
     Vibrator vibe;
@@ -80,6 +80,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
 
     public static Handler handler;
     public static Runnable runnable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,7 +260,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    @SuppressLint({"NonConstantResourceId", "UseCompatLoadingForDrawables"})
+    @SuppressLint({"NonConstantResourceId", "UseCompatLoadingForDrawables", "SetTextI18n"})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -284,8 +285,43 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.fbEnglishQna:
-               // setLocale("en");
-                changeQuestionLanguage("2", questionList.get(QueNo).getId());
+                if (!questionList.get(0).getImage().equalsIgnoreCase("")) {
+                    ivQuestion.setVisibility(View.VISIBLE);
+                    Picasso.get().load(questionList.get(0).getImage()).into(ivQuestion);
+                } else {
+                    ivQuestion.setVisibility(View.GONE);
+                }
+                txtQuestion.setText("" + questionList.get(0).getQuestion());
+                txtOptionA.setText("" + questionList.get(0).getOptionA());
+                txtOptionB.setText("" + questionList.get(0).getOptionB());
+                if (questionList.get(QueNo).getOptionC().equalsIgnoreCase("")) {
+                    lyOptionC.setVisibility(View.INVISIBLE);
+                } else {
+                    lyOptionC.setVisibility(View.VISIBLE);
+                    txtOptionC.setText("" + questionList.get(0).getOptionC());
+                }
+                if (questionList.get(QueNo).getOptionD().equalsIgnoreCase("")) {
+                    lyOptionD.setVisibility(View.INVISIBLE);
+                } else {
+                    lyOptionD.setVisibility(View.VISIBLE);
+                    txtOptionD.setText("" + questionList.get(0).getOptionD());
+                }
+
+                txtLevelNumber.setText("" + currentLevel);
+                txtQueNumber.setText("" + (QueNo + 1));
+                txtRightAnswers.setText(getResources().getString(R.string.right) + " " + rightAnswers);
+                txtWrongAnswers.setText(getResources().getString(R.string.wrong) + " " + wrongAnswers);
+
+                txtTotalQue.setText(" / " + questionList.size());
+
+                if (questionList.size() == 1) {
+                    txtNext.setText(getResources().getString(R.string.finish));
+                }
+
+                // set all option to unselect and start timer
+                modifyOptions();
+                countdownTimer.start(31000);
+
                 showAndHideLanguage();
                 break;
 
@@ -409,7 +445,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
     private void showAndHideLanguage() {
 
         // set visibility
-        if(!isAllFabVisible) {
+        if (!isAllFabVisible) {
             fbEnglishQna.setVisibility(View.VISIBLE);
             fabUrdhuQna.setVisibility(View.VISIBLE);
             fabHindiQna.setVisibility(View.VISIBLE);
@@ -418,8 +454,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
             tvUrdhuQna.setVisibility(View.VISIBLE);
             isAllFabVisible = true;
             efbSelectLanguageQna.extend();
-        }
-        else{
+        } else {
             fbEnglishQna.setVisibility(View.GONE);
             fabUrdhuQna.setVisibility(View.GONE);
             fabHindiQna.setVisibility(View.GONE);
@@ -436,44 +471,51 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
         fabUrdhuQna.setOnClickListener(this);
     }
 
-    private void changeQuestionLanguage(String languageId, String questionId){
+    private void changeQuestionLanguage(String languageId, String questionId) {
         Call<QuestionLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageQuestion();
         questionLanguageModelCall.enqueue(new Callback<QuestionLanguageModel>() {
             @Override
             public void onResponse(Call<QuestionLanguageModel> call, Response<QuestionLanguageModel> response) {
-                if(response.code() == 200 && response.body().getStatus() == 200){
-                    if(response.body().getResult().size() > 0){
-                        List<com.eziamtech.malwapathshala.Model.QuestionLanguage.Result> responseData = response.body().getResult();
+                try {
+                    if (response.code() == 200 && response.body().getStatus() == 200) {
+                        if (response.body().getResult().size() > 0) {
+                            List<com.eziamtech.malwapathshala.Model.QuestionLanguage.Result> responseData = response.body().getResult();
 
-                        // set question image if available otherwise hide image view
-                        if (!responseData.get(0).getImage().equalsIgnoreCase("")) {
-                            ivQuestion.setVisibility(View.VISIBLE);
-                            Picasso.get().load(responseData.get(0).getImage()).into(ivQuestion);
-                        } else {
-                            ivQuestion.setVisibility(View.GONE);
-                        }
+                            // set question image if available otherwise hide image view
+                            if (!responseData.get(0).getImage().equalsIgnoreCase("")) {
+                                ivQuestion.setVisibility(View.VISIBLE);
+                                Picasso.get().load(responseData.get(0).getImage()).into(ivQuestion);
+                            } else {
+                                ivQuestion.setVisibility(View.GONE);
+                            }
 
-                        // set question and its options
-                        txtQuestion.setText("" + responseData.get(0).getQuestion());
-                        txtOptionA.setText("" + responseData.get(0).getOptionA());
-                        txtOptionB.setText("" + responseData.get(0).getOptionB());
-                        if (responseData.get(QueNo).getOptionC().equalsIgnoreCase("")) {
-                            lyOptionC.setVisibility(View.INVISIBLE);
-                        } else {
-                            lyOptionC.setVisibility(View.VISIBLE);
-                            txtOptionC.setText("" + responseData.get(0).getOptionC());
-                        }
-                        if (responseData.get(QueNo).getOptionD().equalsIgnoreCase("")) {
-                            lyOptionD.setVisibility(View.INVISIBLE);
-                        } else {
-                            lyOptionD.setVisibility(View.VISIBLE);
-                            txtOptionD.setText("" + responseData.get(0).getOptionD());
-                        }
+                            // set question and its options
+                            txtQuestion.setText("" + responseData.get(0).getQuestion());
+                            txtOptionA.setText("" + responseData.get(0).getOptionA());
+                            txtOptionB.setText("" + responseData.get(0).getOptionB());
+                            if (responseData.get(QueNo).getOptionC().equalsIgnoreCase("")) {
+                                lyOptionC.setVisibility(View.INVISIBLE);
+                            } else {
+                                lyOptionC.setVisibility(View.VISIBLE);
+                                txtOptionC.setText("" + responseData.get(0).getOptionC());
+                            }
+                            if (responseData.get(QueNo).getOptionD().equalsIgnoreCase("")) {
+                                lyOptionD.setVisibility(View.INVISIBLE);
+                            } else {
+                                lyOptionD.setVisibility(View.VISIBLE);
+                                txtOptionD.setText("" + responseData.get(0).getOptionD());
+                            }
 
+                            // set all option to unselect and start timer
+                            modifyOptions();
+                            countdownTimer.start(31000);
+                        }
+                    } else {
+                        Toasty.error(getApplicationContext(), "No question found" + response.toString(), Toast.LENGTH_LONG).show();
                     }
-                }
-                else{
-                    Toasty.error(getApplicationContext(), "No question found"+response.toString(), Toast.LENGTH_LONG).show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -482,6 +524,30 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
                 t.printStackTrace();
             }
         });
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void modifyOptions() {
+        txtAnswerStatus.setVisibility(View.GONE);
+        lyOptionB.setBackground(getResources().getDrawable(R.drawable.round_bg_light_primary));
+        lyOptionA.setBackground(getResources().getDrawable(R.drawable.round_bg_light_primary));
+        lyOptionC.setBackground(getResources().getDrawable(R.drawable.round_bg_light_primary));
+        lyOptionD.setBackground(getResources().getDrawable(R.drawable.round_bg_light_primary));
+
+        txtTickB.setBackground(getResources().getDrawable(R.drawable.round_bor_options));
+        txtTickA.setBackground(getResources().getDrawable(R.drawable.round_bor_options));
+        txtTickC.setBackground(getResources().getDrawable(R.drawable.round_bor_options));
+        txtTickD.setBackground(getResources().getDrawable(R.drawable.round_bor_options));
+
+        txtB.setTextColor(getResources().getColor(R.color.text_color_primary));
+        txtA.setTextColor(getResources().getColor(R.color.text_color_primary));
+        txtC.setTextColor(getResources().getColor(R.color.text_color_primary));
+        txtD.setTextColor(getResources().getColor(R.color.text_color_primary));
+
+        txtOptionB.setTextColor(getResources().getColor(R.color.text_color_primary));
+        txtOptionA.setTextColor(getResources().getColor(R.color.text_color_primary));
+        txtOptionC.setTextColor(getResources().getColor(R.color.text_color_primary));
+        txtOptionD.setTextColor(getResources().getColor(R.color.text_color_primary));
     }
 
     //get_lavel API call
@@ -497,7 +563,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
                 try {
                     Log.e("get_question_by_lavel status =>", "" + response.body().getStatus());
                     if (response.code() == 200 && response.body().getStatus() == 200) {
-
+                        questionList = response.body().getResult();
                         if (response.body().getResult().size() > 0) {
                             questionList = new ArrayList<>();
                             questionList = response.body().getResult();

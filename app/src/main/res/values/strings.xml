@@ -209,5 +209,6 @@
     <string name="blogs">Blogs</string>
     <string name="BlogCategory">Blog Categories</string>
     <string name="like">Like</string>
+    <string name="comments">Comment</string>
 
 </resources>

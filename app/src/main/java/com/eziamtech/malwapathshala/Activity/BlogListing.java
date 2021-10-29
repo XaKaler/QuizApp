@@ -64,9 +64,14 @@ public class BlogListing extends AppCompatActivity implements View.OnClickListen
         call.enqueue(new Callback<BlogListingModel>() {
             @Override
             public void onResponse(Call<BlogListingModel> call, Response<BlogListingModel> response) {
-                assert response.body() != null;
-                BlogListingAdapter adapter = new BlogListingAdapter(response.body().getResult(), getApplicationContext());
-                rvBlogListing.setAdapter(adapter);
+                try{
+                    if(response.code() == 200 && response.body().getStatus()==200){
+                        BlogListingAdapter adapter = new BlogListingAdapter(response.body().getResult(), getApplicationContext());
+                        rvBlogListing.setAdapter(adapter);
+                    }
+                }catch (Exception e ){
+                    e.printStackTrace();
+                }
             }
 
             @Override

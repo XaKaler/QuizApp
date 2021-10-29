@@ -36,7 +36,7 @@ public class BlogCategory extends AppCompatActivity {
         txtToolbarTitle.setTextColor(getResources().getColor(R.color.text_blue));
         txtBack.setBackgroundTintList(getResources().getColorStateList(R.color.text_blue));
 
-        lyBack.setOnClickListener(v-> finish());
+        lyBack.setOnClickListener(v -> finish());
     }
 
     private void init() {
@@ -54,13 +54,19 @@ public class BlogCategory extends AppCompatActivity {
         call.enqueue(new Callback<BlogCategoryModel>() {
             @Override
             public void onResponse(Call<BlogCategoryModel> call, Response<BlogCategoryModel> response) {
-                BlogCategoryAdapter adapter = new BlogCategoryAdapter(response.body().getResult(), getApplicationContext());
-                rvBlogCategory.setAdapter(adapter);
+                try {
+                    if (response.code() == 200 && response.body().getStatus() == 200) {
+                        BlogCategoryAdapter adapter = new BlogCategoryAdapter(response.body().getResult(), getApplicationContext());
+                        rvBlogCategory.setAdapter(adapter);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onFailure(Call<BlogCategoryModel> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
 

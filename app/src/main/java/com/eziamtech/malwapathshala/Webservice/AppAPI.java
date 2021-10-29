@@ -1,8 +1,12 @@
 package com.eziamtech.malwapathshala.Webservice;
 
+import android.util.Log;
+
 import com.eziamtech.malwapathshala.Model.Blog.BlogListingModel;
 import com.eziamtech.malwapathshala.Model.Blog.BlogStatusModel;
 import com.eziamtech.malwapathshala.Model.BlogCategoryModel.BlogCategoryModel;
+import com.eziamtech.malwapathshala.Model.BlogComment.AddComment;
+import com.eziamtech.malwapathshala.Model.BlogComment.BlogCommentModel;
 import com.eziamtech.malwapathshala.Model.BlogFeatures.BlogFeaturesModel;
 import com.eziamtech.malwapathshala.Model.BlogLanguage.BlogLanguageModel;
 import com.eziamtech.malwapathshala.Model.CategoryModel.CategoryModel;
@@ -119,7 +123,6 @@ public interface AppAPI {
                                           @Field("payment_type") String payment_type);
 
 
-    // Change question language
     @POST("https://app.mysarthi.com/quiz/api/home/get_questiontranslation?question_id=1&lang_id=3")
     Call<QuestionLanguageModel> getChangedLanguageQuestion();
 
@@ -129,7 +132,6 @@ public interface AppAPI {
                                                            @Field("lang_id") String lang_id);
 
 
-    // Change blog language
     @POST("https://app.mysarthi.com/quiz/api/home/get_blogtranslation?blog_id=5&lang_id=3")
     Call<BlogLanguageModel> getChangedLanguageBlog();
 
@@ -139,34 +141,41 @@ public interface AppAPI {
                                                    @Field("lang_id") String lang_id);
 
 
-    // For blogs
     @GET("home/get_blog")
     Call<BlogListingModel> getBlogListing();
 
-    // For blog category
     @GET("home/get_blogcategory")
     Call<BlogCategoryModel> getBlogCategory();
-
-    // For blog like/comment/share
-    @POST("https://app.mysarthi.com/quiz/api/home/get_blogfeatures?blog_id=5&lang_id=3")
-    Call<BlogFeaturesModel> getBlogFeatures();
 
     @FormUrlEncoded
     @POST("home/get_blogfeatures")
     Call<BlogFeaturesModel> getBlogFeatures(@Field("blog_id") String blog_id,
                                             @Field("lang_id") String lang_id);
 
-    // Insert like/share/watch
-    @POST("https://app.mysarthi.com/quiz/api/home/blogstatus?blog_id=5&lang_id=3&like=1")
-    Call<BlogStatusModel> updateStatus();
 
     @FormUrlEncoded
     @POST("home/blogstatus")
     Call<BlogStatusModel> updateStatus(@Field("blog_id") String blog_id,
                                        @Field("lang_id") String lang_id,
-                                       @Field("like") String like,
+                                       @Field("likes") String like,
                                        @Field("watch") String watch,
                                        @Field("share") String share);
+
+
+
+    @FormUrlEncoded
+    @POST("home/get_blogcommentcount")
+    Call<BlogCommentModel> getComments(@Field("blog_id") String blog_id,
+                                       @Field("lang_id") String lang_id);
+
+    @POST("https://app.mysarthi.com/quiz/api/home/get_blogcommentcount?blog_id=5&lang_id=1")
+    Call<BlogCommentModel> getComments();
+
+    @FormUrlEncoded
+    @POST("home/blogcomment")
+    Call<AddComment> addComment(@Field("blog_id") String blog_id,
+                                @Field("lang_id") String lang_id,
+                                @Field("comment") String comment);
 
 
 }
