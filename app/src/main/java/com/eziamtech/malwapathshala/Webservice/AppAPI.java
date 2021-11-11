@@ -1,13 +1,12 @@
 package com.eziamtech.malwapathshala.Webservice;
 
-import android.util.Log;
-
 import com.eziamtech.malwapathshala.Model.Blog.BlogListingModel;
 import com.eziamtech.malwapathshala.Model.Blog.BlogStatusModel;
 import com.eziamtech.malwapathshala.Model.BlogCategoryModel.BlogCategoryModel;
 import com.eziamtech.malwapathshala.Model.BlogComment.AddComment;
 import com.eziamtech.malwapathshala.Model.BlogComment.BlogCommentModel;
 import com.eziamtech.malwapathshala.Model.BlogFeatures.BlogFeaturesModel;
+import com.eziamtech.malwapathshala.Model.BlogFeatures.Result;
 import com.eziamtech.malwapathshala.Model.BlogLanguage.BlogLanguageModel;
 import com.eziamtech.malwapathshala.Model.CategoryModel.CategoryModel;
 import com.eziamtech.malwapathshala.Model.ForgotPassModel.ForgotPassModel;
@@ -23,15 +22,23 @@ import com.eziamtech.malwapathshala.Model.SuccessModel.SuccessModel;
 import com.eziamtech.malwapathshala.Model.TodayLeaderBoardModel.TodayLeaderBoardModel;
 import com.eziamtech.malwapathshala.Model.WithdrawalModel.WithdrawalModel;
 
+import java.util.Map;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface AppAPI {
 
@@ -123,59 +130,42 @@ public interface AppAPI {
                                           @Field("payment_type") String payment_type);
 
 
-    @POST("https://app.mysarthi.com/quiz/api/home/get_questiontranslation?question_id=1&lang_id=3")
-    Call<QuestionLanguageModel> getChangedLanguageQuestion();
-
-    @FormUrlEncoded
-    @POST("home/get_questiontranslation")
-    Call<QuestionLanguageModel> getChangedLanguageQuestion(@Field("question_id") String question_id,
-                                                           @Field("lang_id") String lang_id);
+    @GET("home/get_questiontranslation")
+    Call<QuestionLanguageModel> getChangedLanguageQuestion(@Query("question_id") String question_id,
+                                                           @Query("lang_id") String lang_id);
 
 
-    @POST("https://app.mysarthi.com/quiz/api/home/get_blogtranslation?blog_id=5&lang_id=3")
-    Call<BlogLanguageModel> getChangedLanguageBlog();
-
-    @FormUrlEncoded
-    @POST("home/get_blogtranslation")
-    Call<BlogLanguageModel> getChangedLanguageBlog(@Field("blog_id") String blog_id,
-                                                   @Field("lang_id") String lang_id);
-
+    @GET("home/get_blogtranslation")
+    Call<BlogLanguageModel> getChangedLanguageBlog(@Query("blog_id") String blog_id,
+                                                   @Query("lang_id") String lang_id);
 
     @GET("home/get_blog")
-    Call<BlogListingModel> getBlogListing();
+    Call<BlogListingModel> getBlogListing(@Query("cat_id") String cat_id);
 
     @GET("home/get_blogcategory")
     Call<BlogCategoryModel> getBlogCategory();
 
-    @FormUrlEncoded
-    @POST("home/get_blogfeatures")
-    Call<BlogFeaturesModel> getBlogFeatures(@Field("blog_id") String blog_id,
-                                            @Field("lang_id") String lang_id);
+    @GET("home/get_blogfeatures")
+    Call<BlogFeaturesModel> getBlogFeatures(@Query("blog_id") String blog_id,
+                                            @Query("lang_id") String lang_id);
 
 
-    @FormUrlEncoded
-    @POST("home/blogstatus")
-    Call<BlogStatusModel> updateStatus(@Field("blog_id") String blog_id,
-                                       @Field("lang_id") String lang_id,
-                                       @Field("likes") String like,
-                                       @Field("watch") String watch,
-                                       @Field("share") String share);
+    @GET("home/blogstatus")
+    Call<BlogStatusModel> updateStatus(@Query("blog_id") String blog_id,
+                                       @Query("lang_id") String lang_id,
+                                       @Query("like") String like,
+                                       @Query("watch") String watch,
+                                       @Query("share") String share);
 
 
+    @GET("home/get_blogcommentcount")
+    Call<BlogCommentModel> getComments(@Query("blog_id") String blog_id,
+                                       @Query("lang_id") String lang_id);
 
-    @FormUrlEncoded
-    @POST("home/get_blogcommentcount")
-    Call<BlogCommentModel> getComments(@Field("blog_id") String blog_id,
-                                       @Field("lang_id") String lang_id);
-
-    @POST("https://app.mysarthi.com/quiz/api/home/get_blogcommentcount?blog_id=5&lang_id=1")
-    Call<BlogCommentModel> getComments();
-
-    @FormUrlEncoded
-    @POST("home/blogcomment")
-    Call<AddComment> addComment(@Field("blog_id") String blog_id,
-                                @Field("lang_id") String lang_id,
-                                @Field("comment") String comment);
+    @GET("home/blogcomment")
+    Call<AddComment> addComment(@Query("blog_id") String blog_id,
+                                @Query("lang_id") String lang_id,
+                                @Query("comment") String comment);
 
 
 }

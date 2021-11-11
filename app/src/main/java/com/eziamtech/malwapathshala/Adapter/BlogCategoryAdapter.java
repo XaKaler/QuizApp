@@ -81,6 +81,7 @@ public class BlogCategoryAdapter extends RecyclerView.Adapter<BlogCategoryAdapte
 
             Intent intent = new Intent(context, BlogListing.class);
             intent.putExtra("cat_id", data.get(position).getId());
+            intent.putExtra("category_name", data.get(position).getName());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });

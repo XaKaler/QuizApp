@@ -472,7 +472,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
     }
 
     private void changeQuestionLanguage(String languageId, String questionId) {
-        Call<QuestionLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageQuestion();
+        Call<QuestionLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageQuestion(questionId, languageId);
         questionLanguageModelCall.enqueue(new Callback<QuestionLanguageModel>() {
             @Override
             public void onResponse(Call<QuestionLanguageModel> call, Response<QuestionLanguageModel> response) {
@@ -511,7 +511,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
                             countdownTimer.start(31000);
                         }
                     } else {
-                        Toasty.error(getApplicationContext(), "No question found" + response.toString(), Toast.LENGTH_LONG).show();
+                        Toasty.info(getApplicationContext(), "Question is not available in this language" , Toast.LENGTH_LONG).show();
                     }
 
                 } catch (Exception e) {

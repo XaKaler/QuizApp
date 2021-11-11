@@ -61,7 +61,7 @@ public class BlogComments extends AppCompatActivity implements View.OnClickListe
         Log.d("11111111111", "hi hello");
 
         // get comment of particular blog
-        Call<BlogCommentModel> call = BaseURL.getVideoAPI().getComments();
+        Call<BlogCommentModel> call = BaseURL.getVideoAPI().getComments(blog_id, lang_id);
         call.enqueue(new Callback<BlogCommentModel>() {
             @Override
             public void onResponse(Call<BlogCommentModel> call, Response<BlogCommentModel> response) {
@@ -70,8 +70,6 @@ public class BlogComments extends AppCompatActivity implements View.OnClickListe
                         commentList = response.body().getResult();
                         BlogCommentAdapter adapter = new BlogCommentAdapter(response.body().getResult(), getApplicationContext());
                         rvComments.setAdapter(adapter);
-                    } else {
-                        Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {

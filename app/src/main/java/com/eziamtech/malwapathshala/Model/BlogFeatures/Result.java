@@ -30,6 +30,14 @@ public class Result {
     @Expose
     private String updatedAt;
 
+    public Result(String blogId, String langId, String likes, String share, String watch) {
+        this.blogId = blogId;
+        this.langId = langId;
+        this.likes = likes;
+        this.share = share;
+        this.watch = watch;
+    }
+
     public String getId() {
         return id;
     }

@@ -8,8 +8,9 @@
     tools:context=".Activity.BlogListing">
 
     <!--Toolbar-->
-    <include layout="@layout/toolbar"
-        android:id="@+id/include"/>
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBlogListing"
@@ -20,6 +21,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/include"
         tools:listitem="@layout/single_blog_listing" />
+
+    <TextView
+        android:id="@+id/tvNoBlogFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.1"
+        android:text="Sorry! \n No Blog Found"
+        android:textAlignment="center"
+        android:lineSpacingMultiplier="1.5"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

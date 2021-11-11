@@ -29,9 +29,14 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
+import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import es.dmoral.toasty.Toasty;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,7 +54,10 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
 
     Boolean likeSelected = false;
 
-    int likeCount = 0, commentCount = 0, shareCount = 0, watchCount = 0;
+    long likeCount = 0;
+    int commentCount = 0;
+    int shareCount = 0;
+    int watchCount = 0;
     private String lang_id = "1", blog_id;
 
     @Override
@@ -63,14 +71,16 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
         getBlogFeature();
 
         // set like count
+        // if like value is greater than 0 then set like count value
+        // otherwise keep it "Like"
         if (likeCount != 0)
             bottomNavigationView.getMenu().getItem(0).setTitle(String.valueOf(likeCount));
     }
 
     private void getBlogFeature() {
-        // get like/comment/share of current position blog
+        // get like/comment/share of current blog
         Call<BlogFeaturesModel> blogFeatureCall = BaseURL.getVideoAPI().getBlogFeatures("" + result.getId(), "" + lang_id);
-        Log.d("12345", "blog id and lang id is " +result.getId()+" - " + lang_id);
+        Log.d("12345", "blog id and lang id is " + result.getId() + " - " + lang_id);
         blogFeatureCall.enqueue(new Callback<BlogFeaturesModel>() {
             @Override
             public void onResponse(Call<BlogFeaturesModel> call, Response<BlogFeaturesModel> response) {
@@ -79,9 +89,11 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                     // if like/share/comment is available
                     if (response.body().getResult().size() > 0) {
                         // initialize like/share/watch count
-                        likeCount = Integer.parseInt(response.body().getResult().get(0).getLikes());
+                        likeCount = Long.parseLong(response.body().getResult().get(0).getLikes());
                         shareCount = Integer.parseInt(response.body().getResult().get(0).getShare());
-                        watchCount = Integer.parseInt(response.body().getResult().get(0).getWatch());
+                        watchCount = Integer.parseInt(response.body().getResult().get(0).getWatch())+1;
+
+                        bottomNavigationView.getMenu().getItem(0).setTitle(String.valueOf(likeCount));
                     }
                 }
                 Log.d("12345", "blog_feature response = " + response.code() + " " + response.body().getStatus());
@@ -131,9 +143,14 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
         // get data from intent
         Intent intent = getIntent();
         result = (Result) intent.getSerializableExtra("blog");
-       tvBlogTitle.setText(result.getTitle());
+        tvBlogTitle.setText(result.getTitle());
         tvBlogInDetail.setText(stripHtml(result.getDetail()));
-       Picasso.get().load(result.getImage()).into(ivBlogImage);
+
+        // if no image then hide image view
+        if (result.getImage().equals("") || result.getImage() == null)
+            ivBlogImage.setVisibility(View.GONE);
+        else
+            Picasso.get().load(result.getImage()).into(ivBlogImage);
 
         // initialize blog id for later use
         blog_id = result.getId();
@@ -168,7 +185,6 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                 tvBlogTitle.setText(result.getTitle());
                 tvBlogInDetail.setText(stripHtml(result.getDetail()));
                 Picasso.get().load(result.getImage()).into(ivBlogImage);
-                //changeBlogLanguage("2", result.getId());
                 showAndHideLanguage();
                 break;
 
@@ -186,7 +202,7 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
     }
 
     private void changeBlogLanguage(String languageId, String blogId) {
-        Call<BlogLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageBlog();
+        Call<BlogLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageBlog(blogId, languageId);
         questionLanguageModelCall.enqueue(new Callback<BlogLanguageModel>() {
             @Override
             public void onResponse(Call<BlogLanguageModel> call, Response<BlogLanguageModel> response) {
@@ -207,7 +223,7 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                             lang_id = responseData.get(0).getLangId();
                         }
                     } else {
-                        Toasty.error(getApplicationContext(), "No blog found \n " + response.body().getStatus() + response.body().getMessage(), Toast.LENGTH_LONG).show();
+                        Toasty.info(getApplicationContext(), "Blog is not available in this language",Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -258,11 +274,14 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                 break;
 
             case R.id.btmLike:
-                // if user not like yet
+
+              //  Toast.makeText(this, blog_id, Toast.LENGTH_SHORT).show();
+                // if user not like yet then
                 if (!likeSelected) {
-                    Log.d("12345", blog_id+" "+likeCount+" "+shareCount+" "+watchCount+" "+lang_id);
-                    Call<BlogStatusModel> blogStatusModelCall = BaseURL.getVideoAPI()
-                            .updateStatus("" + blog_id, "" + lang_id, "" + likeCount + 1, "" + watchCount, "" + shareCount);
+
+                    Log.e("12345", "blog_id - " + blog_id + "\n" + "like_count - " + likeCount + "\n" + "share_count - " + shareCount + "\n" + "watch_count - " + watchCount + "\n" + "lang_id - " + lang_id);
+
+                    Call<BlogStatusModel> blogStatusModelCall = BaseURL.getVideoAPI().updateStatus("" + blog_id, "" + lang_id, String.valueOf(likeCount+1), String.valueOf(watchCount), String.valueOf(shareCount));
                     blogStatusModelCall.enqueue(new Callback<BlogStatusModel>() {
                         @Override
                         public void onResponse(Call<BlogStatusModel> call, Response<BlogStatusModel> response) {
@@ -270,7 +289,8 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                                 // if like update in db successfully
                                 if (response.code() == 200 & response.body().getStatus() == 200) {
                                     item.setIcon(R.drawable.ic_like_fill);
-                                    item.setTitle(String.valueOf(likeCount += 1));
+                                    likeCount = likeCount+1;
+                                    item.setTitle(String.valueOf(likeCount));
                                     likeSelected = true;
                                 }
                             } catch (Exception e) {
@@ -289,7 +309,7 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                 // if user already like
                 else {
                     Call<BlogStatusModel> blogStatusModelCall = BaseURL.getVideoAPI()
-                            .updateStatus("" + blog_id, "" + lang_id, "" + (likeCount + 1), "" + watchCount, "" + shareCount);
+                            .updateStatus("" + blog_id, "" + lang_id, String.valueOf(likeCount-1), String.valueOf(watchCount), String.valueOf(shareCount));
                     blogStatusModelCall.enqueue(new Callback<BlogStatusModel>() {
                         @Override
                         public void onResponse(Call<BlogStatusModel> call, Response<BlogStatusModel> response) {
@@ -297,7 +317,8 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                                 // if like update in db successfully
                                 if (response.code() == 200 & response.body().getStatus() == 200) {
                                     item.setIcon(R.drawable.ic_like);
-                                    item.setTitle(String.valueOf(likeCount -= 1));
+                                    likeCount = likeCount-1;
+                                    item.setTitle(String.valueOf(likeCount));
                                     likeSelected = false;
                                 }
                             } catch (Exception e) {
@@ -330,7 +351,7 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "" + getResources().getString(R.string.app_name));
-            String shareMessage = result.getTitle() + "\n\nhttps://app.mysarthi.com/quiz/api/home/get_blog/" + result.getId();
+            String shareMessage = result.getTitle() + "\n\nhttp://malwapathshala.com/api/home/get_blog/" + result.getId();
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
             startActivity(Intent.createChooser(shareIntent, "" + getResources().getString(R.string.share_with)));
         } catch (Exception e) {

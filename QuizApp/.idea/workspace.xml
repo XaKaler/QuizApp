@@ -13,7 +13,19 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3b49e340-0fe8-4101-8155-aec869494001" name="Default Changelist" comment="" />
+    <list default="true" id="3b49e340-0fe8-4101-8155-aec869494001" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Activity/BlogComments.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Activity/BlogComments.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Activity/BlogDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Activity/BlogDetail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Activity/BlogListing.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Activity/BlogListing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Activity/QuestionAnswer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Activity/QuestionAnswer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Adapter/BlogCategoryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Adapter/BlogCategoryAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Adapter/BlogListingAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Adapter/BlogListingAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Model/BlogFeatures/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Model/BlogFeatures/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Webservice/AppAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Webservice/AppAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Webservice/BaseURL.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/eziamtech/malwapathshala/Webservice/BaseURL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/res/layout/activity_blog_listing.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/res/layout/activity_blog_listing.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -74,9 +86,10 @@
     </system>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1rIHvPZjEcMnL2wZPrWIdAs4CZN" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
@@ -166,9 +179,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
+      <method v="2" />
     </configuration>
     <configuration name="QuizApp:app [signingReport]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -210,5 +221,17 @@
       <updated>1618656913038</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

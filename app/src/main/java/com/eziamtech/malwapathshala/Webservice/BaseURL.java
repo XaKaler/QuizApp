@@ -18,7 +18,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseURL {
 
-    public static final String BASE_URL = "http://app.mysarthi.com/quiz/api/";
+    public static final String BASE_URL = "http://malwapathshala.com/api/";
+
+    //http://app.mysarthi.com/quiz/api/
 
     private static Retrofit getBaseUrl() {
 

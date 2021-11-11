@@ -37,7 +37,7 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
 
     Boolean likeSelected = false, isLikeAdd = false;
     int likeCount = 0, shareCount = 0, watchCount = 0;
-    String lang_id = "3";
+    String lang_id = "3", blog_id;
 
     public BlogListingAdapter(List<Result> data, Context context) {
         this.data = data;
@@ -53,9 +53,15 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull BlogListingViewHolder holder, int position) {
+        blog_id = data.get(position).getId();
+
         // set blog title and image
         holder.tvBlogListTitle.setText(data.get(position).getTitle());
-        Picasso.get().load(data.get(position).getImage()).into(holder.imgBlogList);
+        // if no image then hide image view
+        if (data.get(position).getImage().equals("") || data.get(position).getImage() == null)
+            holder.imgBlogList.setVisibility(View.GONE);
+        else
+            Picasso.get().load(data.get(position).getImage()).into(holder.imgBlogList);
 
         // if last blog in list then remove bottom line
         if (position == data.size() - 1) {
@@ -64,7 +70,8 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
 
         // get like/comment/share of current position blog
         Log.d("9999", "blog_id = " + data.get(position).getId());
-        Call<BlogFeaturesModel> blogFeatureCall = BaseURL.getVideoAPI().getBlogFeatures(""+data.get(position).getId(), ""+lang_id);
+
+        Call<BlogFeaturesModel> blogFeatureCall = BaseURL.getVideoAPI().getBlogFeatures(blog_id,  lang_id);
         blogFeatureCall.enqueue(new Callback<BlogFeaturesModel>() {
             @Override
             public void onResponse(Call<BlogFeaturesModel> call, Response<BlogFeaturesModel> response) {
@@ -77,9 +84,9 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
                         watchCount = Integer.parseInt(response.body().getResult().get(0).getWatch());
 
                         //set text in like/comment/share
-                        holder.tvBlogListLike.setText(response.body().getResult().get(0).getLikes());
-                        holder.tvBlogListComment.setText(response.body().getResult().get(0).getWatch());
-                        holder.tvBlogListShare.setText(response.body().getResult().get(0).getShare());
+                       // holder.tvBlogListLike.setText(String.valueOf(likeCount));
+                       /* holder.tvBlogListComment.setText(String.valueOf());
+                        holder.tvBlogListShare.setText(String.valueOf(likeCount));*/
                     }
                 }
                 Log.d("9999", "blog_feature response = " + response.code() + " " + response.body().getStatus());
@@ -101,33 +108,38 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
 
         // when user click on like button
         holder.tvBlogListLike.setOnClickListener(v -> {
+
+           // Toast.makeText(context, data.get(position).getId(), Toast.LENGTH_SHORT).show();
+
             // first check that user already like or not
+
             // if user not like yet
-            if (!likeSelected) {
+            if (!holder.tvBlogListLike.isSelected()) {
                 //1. Add like in db
                 String blog_id = data.get(position).getId();
-                String like = String.valueOf(likeCount + 1);
+                String like = String.valueOf(likeCount += 1);
                 String share = String.valueOf(shareCount);
                 String watch = String.valueOf(watchCount);
                 String lang_id = "1";
 
-                Log.d("12345", blog_id+" "+like+" "+share+" "+watch+" "+lang_id);
+                Log.d("12345", blog_id + " " + like + " " + share + " " + watch + " " + lang_id);
+
                 Call<BlogStatusModel> blogStatusModelCall = BaseURL.getVideoAPI().updateStatus("" + blog_id, "" + like, "" + share, "" + watch, "" + lang_id);
                 blogStatusModelCall.enqueue(new Callback<BlogStatusModel>() {
                     @Override
                     public void onResponse(Call<BlogStatusModel> call, Response<BlogStatusModel> response) {
-                        try{
-                        // if like update in db successfully
-                        if(response.code() == 200 & response.body().getStatus() == 200){
-                            // change icon to selected
-                            holder.tvBlogListLike.setSelected(true);
-                            // change text to like count and increase like count value by 1
-                            holder.tvBlogListLike.setText(String.valueOf(likeCount += 1));
-                            likeSelected = true;
-                        }
-                        Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
+                        try {
+                            // if like update in db successfully
+                            if (response.code() == 200 & response.body().getStatus() == 200) {
+                                holder.tvBlogListLike.setSelected(!holder.tvBlogListLike.isSelected());
+                                //holder.tvBlogListLike.setText(like);
+                            }
+                            else{
+                                Toast.makeText(context, "response is ->"+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                            //Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
 
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                             Log.d("add like exception", e.toString());
                         }
@@ -144,7 +156,7 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
             else {
                 //decrease like in db
                 String blog_id = data.get(position).getId();
-                String like = String.valueOf(likeCount - 1);
+                String like = String.valueOf(likeCount -= 1);
                 String share = String.valueOf(shareCount);
                 String watch = String.valueOf(watchCount);
                 String lang_id = "1";
@@ -153,16 +165,16 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
                 blogStatusModelCall.enqueue(new Callback<BlogStatusModel>() {
                     @Override
                     public void onResponse(Call<BlogStatusModel> call, Response<BlogStatusModel> response) {
-                        try{
-                        // if like update in db successfully
-                        if (response.code() == 200 & response.body().getStatus() == 200) {
-                            // change icon to not selected
-                            holder.tvBlogListLike.setSelected(false);
-                            // change text to like count and decrease like count value by 1
-                            holder.tvBlogListLike.setText(String.valueOf(likeCount -= 1));
-                            likeSelected = true;
-                        }
-                        }catch (Exception e){
+                        try {
+                            // if like update in db successfully
+                            if (response.code() == 200 & response.body().getStatus() == 200) {
+                                holder.tvBlogListLike.setSelected(!holder.tvBlogListLike.isSelected());
+                               // holder.tvBlogListLike.setText(like);
+                            }
+                            else{
+                                Toast.makeText(context, "response is ->"+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
                             e.printStackTrace();
                             Log.d("remove like exception", e.toString());
                         }
@@ -180,7 +192,8 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
         holder.tvBlogListComment.setOnClickListener(v -> {
             Intent commentIntent = new Intent(context, BlogComments.class);
             commentIntent.putExtra("blog_id", data.get(position).getId());
-            commentIntent.putExtra("lang_id", lang_id);
+           // Toast.makeText(context, data.get(position).getId(), Toast.LENGTH_SHORT).show();
+            commentIntent.putExtra("lang_id", "1");
             commentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(commentIntent);
         });
@@ -197,30 +210,12 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
         });*/
     }
 
-    private void updateStatus(String blog_id, String lang_id, String like) {
-        Call<BlogStatusModel> blogStatusModelCall = BaseURL.getVideoAPI().updateStatus("1", "2", "3", "1", "2");
-        blogStatusModelCall.enqueue(new Callback<BlogStatusModel>() {
-            @Override
-            public void onResponse(Call<BlogStatusModel> call, Response<BlogStatusModel> response) {
-                // Log.d("500", response.body().getMessage());
-                if (response.body().getStatus() == 200) {
-                    isLikeAdd = true;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BlogStatusModel> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }
-
     @Override
     public int getItemCount() {
         return data.size();
     }
 
-    static class BlogListingViewHolder extends RecyclerView.ViewHolder {
+    static class BlogListingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private ImageView imgBlogList;
         private TextView tvBlogListTitle, tvBlogListShare, tvBlogListComment, tvBlogListLike;
@@ -239,5 +234,9 @@ public class BlogListingAdapter extends RecyclerView.Adapter<BlogListingAdapter.
         }
 
 
+        @Override
+        public void onClick(View view) {
+
+        }
     }
 }

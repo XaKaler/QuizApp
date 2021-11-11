@@ -29,8 +29,10 @@ import retrofit2.Response;
 public class BlogListing extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerView rvBlogListing;
-    TextView txtToolbarTitle, txtBack;
+    TextView txtToolbarTitle, txtBack, tvNoBlogFound;
     LinearLayout lyBack, lyToolbar;
+
+    String cat_id;
 
     List<Result> blogListingModelResponse;
     List<com.eziamtech.malwapathshala.Model.BlogFeatures.Result> blogFeatureModelResponse;
@@ -53,14 +55,12 @@ public class BlogListing extends AppCompatActivity implements View.OnClickListen
     private void setAdapter() {
         rvBlogListing.setLayoutManager(new LinearLayoutManager(this));
 
-        /*Intent intent = getIntent();
-        List<Result> blogs = (List<Result>) intent.getSerializableExtra("blogs");
-        txtToolbarTitle.setText(intent.getStringExtra("category_name");
-        BlogListingAdapter adapter = new BlogListingAdapter(blogs, getApplicationContext(), getBlogFeature());
-        rvBlogListing.setAdapter(adapter);*/
+        Intent intent = getIntent();
+        txtToolbarTitle.setText(intent.getStringExtra("category_name"));
+        cat_id = intent.getStringExtra("cat_id");
 
         // get data of blog listing
-        Call<BlogListingModel> call = BaseURL.getVideoAPI().getBlogListing();
+        Call<BlogListingModel> call = BaseURL.getVideoAPI().getBlogListing(cat_id);
         call.enqueue(new Callback<BlogListingModel>() {
             @Override
             public void onResponse(Call<BlogListingModel> call, Response<BlogListingModel> response) {
@@ -68,6 +68,10 @@ public class BlogListing extends AppCompatActivity implements View.OnClickListen
                     if(response.code() == 200 && response.body().getStatus()==200){
                         BlogListingAdapter adapter = new BlogListingAdapter(response.body().getResult(), getApplicationContext());
                         rvBlogListing.setAdapter(adapter);
+                    }
+                    else{
+                        rvBlogListing.setVisibility(View.GONE);
+                        tvNoBlogFound.setVisibility(View.VISIBLE);
                     }
                 }catch (Exception e ){
                     e.printStackTrace();
@@ -90,6 +94,7 @@ public class BlogListing extends AppCompatActivity implements View.OnClickListen
             lyToolbar = findViewById(R.id.lyToolbar);
             lyToolbar.setVisibility(View.VISIBLE);
             lyBack = findViewById(R.id.lyBack);
+            tvNoBlogFound = findViewById(R.id.tvNoBlogFound);
 
             lyBack.setOnClickListener(this);
         } catch (Exception e) {
