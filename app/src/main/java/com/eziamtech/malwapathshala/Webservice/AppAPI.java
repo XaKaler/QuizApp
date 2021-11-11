@@ -21,6 +21,7 @@ import com.eziamtech.malwapathshala.Model.RecentQuizModel.RecentQuizModel;
 import com.eziamtech.malwapathshala.Model.SuccessModel.SuccessModel;
 import com.eziamtech.malwapathshala.Model.TodayLeaderBoardModel.TodayLeaderBoardModel;
 import com.eziamtech.malwapathshala.Model.WithdrawalModel.WithdrawalModel;
+import com.eziamtech.malwapathshala.Model.language.GetLanguage;
 
 import java.util.Map;
 
@@ -44,6 +45,9 @@ public interface AppAPI {
 
     @GET("genaral_setting")
     Call<GeneralSettingsModel> genaral_setting();
+
+    @GET("home/get_lang")
+    Call<GetLanguage> getLanguage();
 
     @FormUrlEncoded
     @POST("checkStatus")
