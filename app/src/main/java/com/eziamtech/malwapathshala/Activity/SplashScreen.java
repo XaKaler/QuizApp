@@ -145,7 +145,7 @@ public class SplashScreen extends AppCompatActivity implements ConnectivityRecei
                             finish();
                         } else {
                             prefManager.setFirstTimeLaunch(false);
-                            Intent mainIntent = new Intent(SplashScreen.this, WelcomeActivity.class);
+                            Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
                             startActivity(mainIntent);
                             finish();
                             Log.e("FirstTimeLaunch", "" + prefManager.isFirstTimeLaunch());

@@ -55,7 +55,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.MyViewHolder holder, int position) {
         holder.txtCategory.setText("" + categoryList.get(position).getName());
-        Picasso.get().load(categoryList.get(position).getImage()).into(holder.ivCategory);
+        //Picasso.get().load(categoryList.get(position).getImage()).into(holder.ivCategory);
 
         holder.lyCategory.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")

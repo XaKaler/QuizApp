@@ -146,10 +146,10 @@ public class Statistics extends AppCompatActivity {
                             txtIncorrectAns.setText("" + (Integer.parseInt(response.body().getResult().get(0).getQuestionsAttended())
                                     - Integer.parseInt(response.body().getResult().get(0).getCorrectAnswers())));
 
-                            if (!response.body().getResult().get(0).getProfileImg().equalsIgnoreCase("")) {
+                            /*if (!response.body().getResult().get(0).getProfileImg().equalsIgnoreCase("")) {
                                 Picasso.get().load(response.body().getResult().get(0).getProfileImg())
                                         .into(rivUser);
-                            }
+                            }*/
                         }
 
                     } else {

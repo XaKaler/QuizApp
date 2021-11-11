@@ -24,6 +24,7 @@
             <ImageView
                 android:id="@+id/ivCategory"
                 android:layout_width="70dp"
+                android:src="@drawable/app_icon"
                 android:layout_height="70dp"
                 android:scaleType="fitXY" />
 

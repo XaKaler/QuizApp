@@ -69,11 +69,11 @@ public class RecentQuizAdapter extends RecyclerView.Adapter<RecentQuizAdapter.My
         holder.txtWinningStatus.setText("" + recentQuizList.get(position).getWinStatus());
         holder.txtTopicName.setText("" + recentQuizList.get(position).getLevelName());
 
-        if (!recentQuizList.get(position).getProfileImg().equalsIgnoreCase("")) {
+        /*if (!recentQuizList.get(position).getProfileImg().equalsIgnoreCase("")) {
             Picasso.get().load(recentQuizList.get(position).getProfileImg())
                     .placeholder(context.getResources().getDrawable(R.drawable.ic_username))
                     .into(holder.rivContestant);
-        }
+        }*/
 
     }
 

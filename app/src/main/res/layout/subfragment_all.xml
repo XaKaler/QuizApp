@@ -92,7 +92,7 @@
                                         android:layout_width="75dp"
                                         android:layout_height="75dp"
                                         android:scaleType="fitXY"
-                                        android:src="@drawable/ic_username"
+                                        android:src="@drawable/app_icon"
                                         app:riv_border_color="@color/blue"
                                         app:riv_border_width="2dp"
                                         app:riv_oval="true" />
@@ -157,7 +157,7 @@
                                             android:layout_below="@id/crown"
                                             android:layout_centerHorizontal="true"
                                             android:scaleType="fitXY"
-                                            android:src="@drawable/ic_username"
+                                            android:src="@drawable/app_icon"
                                             app:riv_border_color="@color/blue"
                                             app:riv_border_width="2dp"
                                             app:riv_oval="true" />
@@ -226,7 +226,7 @@
                                         android:layout_width="75dp"
                                         android:layout_height="75dp"
                                         android:scaleType="fitXY"
-                                        android:src="@drawable/ic_username"
+                                        android:src="@drawable/app_icon"
                                         app:riv_border_color="@color/blue"
                                         app:riv_border_width="2dp"
                                         app:riv_oval="true" />
@@ -470,7 +470,7 @@
                         android:layout_height="45dp"
                         android:layout_margin="3dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_username"
+                        android:src="@drawable/app_icon"
                         app:riv_border_color="@color/blue"
                         app:riv_border_width="2dp"
                         app:riv_oval="true" />

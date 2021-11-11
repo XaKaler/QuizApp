@@ -57,11 +57,11 @@ public class LevelResultAdapter extends RecyclerView.Adapter<LevelResultAdapter.
         holder.txtName.setText("" + todayList.get(position).getName());
         holder.txtPoints.setText("" + String.format("%.0f", Double.parseDouble(todayList.get(position).getScore())));
 
-        if (!todayList.get(position).getProfileImg().isEmpty()) {
+       /* if (!todayList.get(position).getProfileImg().isEmpty()) {
             Picasso.get().load(todayList.get(position).getProfileImg())
                     .placeholder(context.getDrawable(R.drawable.ic_username))
                     .into(holder.rivContestant);
-        }
+        }*/
     }
 
     @Override

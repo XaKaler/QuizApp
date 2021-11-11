@@ -159,10 +159,10 @@ public class All extends Fragment {
                         txtUserName.setText("" + response.body().getUser().getFullname());
                         txtUserPoints.setText("" + String.format("%.0f",
                                 Double.parseDouble(response.body().getUser().getTotalScore())));
-                        if (!TextUtils.isEmpty(response.body().getUser().getProfileImg())) {
+                        /*if (!TextUtils.isEmpty(response.body().getUser().getProfileImg())) {
                             Picasso.get().load(response.body().getUser().getProfileImg())
                                     .into(rivUser);
-                        }
+                        }*/
 
                         if (response.body().getResult().size() > 0) {
                             lyNoData.setVisibility(View.GONE);
@@ -175,52 +175,52 @@ public class All extends Fragment {
                                 txtFirstName.setText("" + topContenstantList.get(0).getName());
                                 txtPointsFirst.setText("" + String.format("%.0f",
                                         Double.parseDouble(topContenstantList.get(0).getScore())));
-                                if (!TextUtils.isEmpty(topContenstantList.get(0).getProfileImg())) {
+                                /*if (!TextUtils.isEmpty(topContenstantList.get(0).getProfileImg())) {
                                     Picasso.get().load(topContenstantList.get(0).getProfileImg())
                                             .into(rivFirst);
-                                }
+                                }*/
 
                             } else if (topContenstantList.size() == 2) {
                                 txtFirstName.setText("" + topContenstantList.get(0).getName());
                                 txtPointsFirst.setText("" + String.format("%.0f",
                                         Double.parseDouble(topContenstantList.get(0).getScore())));
-                                if (!TextUtils.isEmpty(topContenstantList.get(0).getProfileImg())) {
+                               /* if (!TextUtils.isEmpty(topContenstantList.get(0).getProfileImg())) {
                                     Picasso.get().load(topContenstantList.get(0).getProfileImg())
                                             .into(rivFirst);
-                                }
+                                }*/
 
                                 txtSecondName.setText("" + topContenstantList.get(1).getName());
                                 txtPointsSecond.setText("" + String.format("%.0f",
                                         Double.parseDouble(topContenstantList.get(1).getScore())));
-                                if (!TextUtils.isEmpty(topContenstantList.get(1).getProfileImg())) {
+                                /*if (!TextUtils.isEmpty(topContenstantList.get(1).getProfileImg())) {
                                     Picasso.get().load(topContenstantList.get(1).getProfileImg())
                                             .into(rivSecond);
-                                }
+                                }*/
 
                             } else {
                                 txtFirstName.setText("" + topContenstantList.get(0).getName());
                                 txtPointsFirst.setText("" + String.format("%.0f",
                                         Double.parseDouble(topContenstantList.get(0).getScore())));
-                                if (!TextUtils.isEmpty(topContenstantList.get(0).getProfileImg())) {
+                                /*if (!TextUtils.isEmpty(topContenstantList.get(0).getProfileImg())) {
                                     Picasso.get().load(topContenstantList.get(0).getProfileImg())
                                             .into(rivFirst);
-                                }
+                                }*/
 
                                 txtSecondName.setText("" + topContenstantList.get(1).getName());
                                 txtPointsSecond.setText("" + String.format("%.0f",
                                         Double.parseDouble(topContenstantList.get(1).getScore())));
-                                if (!TextUtils.isEmpty(topContenstantList.get(1).getProfileImg())) {
+                               /* if (!TextUtils.isEmpty(topContenstantList.get(1).getProfileImg())) {
                                     Picasso.get().load(topContenstantList.get(1).getProfileImg())
                                             .into(rivSecond);
-                                }
+                                }*/
 
                                 txtThirdName.setText("" + topContenstantList.get(2).getName());
                                 txtPointsThird.setText("" + String.format("%.0f",
                                         Double.parseDouble(topContenstantList.get(2).getScore())));
-                                if (!TextUtils.isEmpty(topContenstantList.get(2).getProfileImg())) {
+                                /*if (!TextUtils.isEmpty(topContenstantList.get(2).getProfileImg())) {
                                     Picasso.get().load(topContenstantList.get(2).getProfileImg())
                                             .into(rivThird);
-                                }
+                                }*/
                             }
 
                             if (topContenstantList.size() > 3) {

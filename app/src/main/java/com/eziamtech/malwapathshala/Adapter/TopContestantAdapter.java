@@ -59,10 +59,10 @@ public class TopContestantAdapter extends RecyclerView.Adapter<TopContestantAdap
             holder.txtPoints.setText("" + String.format("%.0f",
                     Double.parseDouble(topContenstantList.get(position + 3).getScore())));
 
-            if (!TextUtils.isEmpty(topContenstantList.get(position + 3).getProfileImg()))
+           /* if (!TextUtils.isEmpty(topContenstantList.get(position + 3).getProfileImg()))
                 Picasso.get().load(topContenstantList.get(position + 3).getProfileImg())
                         .placeholder(context.getResources().getDrawable(R.drawable.ic_username))
-                        .into(holder.rivContestant);
+                        .into(holder.rivContestant);*/
         }
     }
 

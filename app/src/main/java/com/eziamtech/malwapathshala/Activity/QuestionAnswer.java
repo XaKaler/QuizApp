@@ -15,12 +15,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.eziamtech.malwapathshala.Adapter.SelectLanguageAdapter;
+import com.eziamtech.malwapathshala.Interface.RecycleViewClickListener;
 import com.eziamtech.malwapathshala.Model.QuestionLanguage.QuestionLanguageModel;
 import com.eziamtech.malwapathshala.Model.QuestionModel.QuestionModel;
 import com.eziamtech.malwapathshala.Model.QuestionModel.Result;
 import com.eziamtech.malwapathshala.Model.SuccessModel.SuccessModel;
+import com.eziamtech.malwapathshala.Model.language.GetLanguage;
 import com.eziamtech.malwapathshala.R;
 import com.eziamtech.malwapathshala.Util.LocaleUtils;
 import com.eziamtech.malwapathshala.Util.PrefManager;
@@ -444,7 +450,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
 
     private void showAndHideLanguage() {
 
-        // set visibility
+        /*// set visibility
         if (!isAllFabVisible) {
             fbEnglishQna.setVisibility(View.VISIBLE);
             fabUrdhuQna.setVisibility(View.VISIBLE);
@@ -468,11 +474,94 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
         // click listener on floating action buttons
         fbEnglishQna.setOnClickListener(this);
         fabHindiQna.setOnClickListener(this);
-        fabUrdhuQna.setOnClickListener(this);
+        fabUrduQna.setOnClickListener(this);*/
+
+        View view = getLayoutInflater().inflate(R.layout.select_language, null);
+        RecyclerView recyclerView = view.findViewById(R.id.rvLanguageList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                .setTitle("Select your language")
+                .setView(view)
+                .setCancelable(true);
+
+        AlertDialog builder = dialog.create();
+
+        // get language list
+        Call<GetLanguage> call = BaseURL.getVideoAPI().getLanguage();
+        call.enqueue(new Callback<GetLanguage>() {
+            @Override
+            public void onResponse(Call<GetLanguage> call, Response<GetLanguage> response) {
+                try {
+                    if(response.code() == 200 && response.body().getStatus() == 200){
+                        if(response.body().getResult().size() > 0){
+                            recyclerView.setAdapter(new SelectLanguageAdapter(getApplicationContext(), response.body().getResult(), position -> {
+                                if(response.body().getResult().get(position).getLanguage().equals("English")) setEnglishLanguage();
+                                    // Toast.makeText(getApplicationContext(), response.body().getResult().get(position).getId()+" item clicked", Toast.LENGTH_SHORT).show();
+                                else {
+                                    changeQuestionLanguage(response.body().getResult().get(position).getId(), questionList.get(QueNo).getId());
+                                }
+                                builder.dismiss();
+                            }));
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetLanguage> call, Throwable t) {
+
+            }
+        });
+
+
+        builder.show();
+    }
+
+    private void setEnglishLanguage() {
+        if (!questionList.get(0).getImage().equalsIgnoreCase("")) {
+            ivQuestion.setVisibility(View.VISIBLE);
+            Picasso.get().load(questionList.get(0).getImage()).into(ivQuestion);
+        } else {
+            ivQuestion.setVisibility(View.GONE);
+        }
+        txtQuestion.setText("" + questionList.get(0).getQuestion());
+        txtOptionA.setText("" + questionList.get(0).getOptionA());
+        txtOptionB.setText("" + questionList.get(0).getOptionB());
+        if (questionList.get(QueNo).getOptionC().equalsIgnoreCase("")) {
+            lyOptionC.setVisibility(View.INVISIBLE);
+        } else {
+            lyOptionC.setVisibility(View.VISIBLE);
+            txtOptionC.setText("" + questionList.get(0).getOptionC());
+        }
+        if (questionList.get(QueNo).getOptionD().equalsIgnoreCase("")) {
+            lyOptionD.setVisibility(View.INVISIBLE);
+        } else {
+            lyOptionD.setVisibility(View.VISIBLE);
+            txtOptionD.setText("" + questionList.get(0).getOptionD());
+        }
+
+        txtLevelNumber.setText("" + currentLevel);
+        txtQueNumber.setText("" + (QueNo + 1));
+        txtRightAnswers.setText(getResources().getString(R.string.right) + " " + rightAnswers);
+        txtWrongAnswers.setText(getResources().getString(R.string.wrong) + " " + wrongAnswers);
+
+        txtTotalQue.setText(" / " + questionList.size());
+
+        if (questionList.size() == 1) {
+            txtNext.setText(getResources().getString(R.string.finish));
+        }
+
+        // set all option to unselect and start timer
+        modifyOptions();
+        countdownTimer.start(31000);
+
     }
 
     private void changeQuestionLanguage(String languageId, String questionId) {
-        Call<QuestionLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageQuestion(questionId, languageId);
+        Call<QuestionLanguageModel> questionLanguageModelCall = BaseURL.getVideoAPI().getChangedLanguageQuestion(questionId, languageId );
         questionLanguageModelCall.enqueue(new Callback<QuestionLanguageModel>() {
             @Override
             public void onResponse(Call<QuestionLanguageModel> call, Response<QuestionLanguageModel> response) {
@@ -511,7 +600,7 @@ public class QuestionAnswer extends AppCompatActivity implements View.OnClickLis
                             countdownTimer.start(31000);
                         }
                     } else {
-                        Toasty.info(getApplicationContext(), "Question is not available in this language" , Toast.LENGTH_LONG).show();
+                        Toasty.info(getApplicationContext(), "Question is not available in this language", Toast.LENGTH_LONG).show();
                     }
 
                 } catch (Exception e) {

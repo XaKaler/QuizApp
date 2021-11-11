@@ -201,10 +201,10 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
                             txtUserName.setText("" + response.body().getResult().get(0).getFirstName());
                             txtCityName.setText("" + response.body().getResult().get(0).getBiodata());
 
-                            if (!response.body().getResult().get(0).getProfileImg().equalsIgnoreCase("")) {
+                            /*if (!response.body().getResult().get(0).getProfileImg().equalsIgnoreCase("")) {
                                 Picasso.get().load(response.body().getResult().get(0).getProfileImg())
                                         .into(rivUser);
-                            }
+                            }*/
 
                             recentQuiz();
                         }

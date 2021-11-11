@@ -223,10 +223,10 @@ public class LevelResult extends AppCompatActivity implements View.OnClickListen
                         txtPointEarn.setText("" + String.format("%.0f",
                                 Double.parseDouble("" + response.body().getUser().getScore())) + "+ " + getResources().getString(R.string.point_earned));
 
-                        if (!TextUtils.isEmpty(response.body().getUser().getProfileImg())) {
+                        /*if (!TextUtils.isEmpty(response.body().getUser().getProfileImg())) {
                             Picasso.get().load(response.body().getUser().getProfileImg())
                                     .into(rivContestant);
-                        }
+                        }*/
 
                         Result();
 
