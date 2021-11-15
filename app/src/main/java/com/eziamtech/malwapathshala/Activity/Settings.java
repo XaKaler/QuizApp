@@ -73,7 +73,7 @@ public class Settings extends AppCompatActivity implements CompoundButton.OnChec
     private GoogleSignInOptions gso;
 
     SwitchCompat switchSound, switchVibration, switchPush;
-    Spinner spinnerLanguage;
+   // Spinner spinnerLanguage;
 
     LinearLayout lyBack, lyToolbar, lyAbout, lyTermCondition, lyLogin, lyRateApp, lyShareApp, lyBlog;
     TextView txtToolbarTitle, txtBack, txtLogin;
@@ -128,7 +128,7 @@ public class Settings extends AppCompatActivity implements CompoundButton.OnChec
             txtLogin.setText(getResources().getString(R.string.log_in));
         }
 
-        spinnerOnClick();
+        //spinnerOnClick();
         currentLanguage = prefManager.getValue("select_language");
         Log.e("lan_currentLan", "" + currentLanguage);
 
@@ -162,7 +162,7 @@ public class Settings extends AppCompatActivity implements CompoundButton.OnChec
             switchVibration = findViewById(R.id.switchVibration);
             switchSound = findViewById(R.id.switchSound);
             switchPush = findViewById(R.id.switchPush);
-            spinnerLanguage = findViewById(R.id.spinnerLanguage);
+            //spinnerLanguage = findViewById(R.id.spinnerLanguage);
             lyToolbar = findViewById(R.id.lyToolbar);
             lyToolbar.setVisibility(View.VISIBLE);
             lyBack = findViewById(R.id.lyBack);
@@ -297,7 +297,7 @@ public class Settings extends AppCompatActivity implements CompoundButton.OnChec
         }
     }
 
-    private void spinnerOnClick() {
+  /*  private void spinnerOnClick() {
         List<String> list = new ArrayList<String>();
         list.add("English");
         list.add("عربى");
@@ -344,7 +344,7 @@ public class Settings extends AppCompatActivity implements CompoundButton.OnChec
 
             }
         });
-    }
+    }*/
 
     private void setLocale(String localeName) {
         try {

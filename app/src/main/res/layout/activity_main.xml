@@ -135,6 +135,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
+                        android:backgroundTint="@color/blue"
                         android:background="@drawable/ic_leaderboard" />
 
                 </androidx.cardview.widget.CardView>
@@ -175,6 +176,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
+                        android:backgroundTint="@color/blue"
                         android:background="@drawable/ic_instruction" />
 
                 </androidx.cardview.widget.CardView>
@@ -215,6 +217,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
+                        android:backgroundTint="@color/blue"
                         android:background="@drawable/ic_user_profile" />
 
                 </androidx.cardview.widget.CardView>
@@ -255,6 +258,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
+                        android:backgroundTint="@color/blue"
                         android:background="@drawable/ic_setting" />
 
                 </androidx.cardview.widget.CardView>

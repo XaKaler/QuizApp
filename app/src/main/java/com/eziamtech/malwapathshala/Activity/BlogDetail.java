@@ -1,7 +1,10 @@
 package com.eziamtech.malwapathshala.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,11 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eziamtech.malwapathshala.Adapter.SelectLanguageAdapter;
 import com.eziamtech.malwapathshala.Model.Blog.BlogStatusModel;
 import com.eziamtech.malwapathshala.Model.Blog.Result;
 import com.eziamtech.malwapathshala.Model.BlogFeatures.BlogFeaturesModel;
 import com.eziamtech.malwapathshala.Model.BlogLanguage.BlogLanguageModel;
 import com.eziamtech.malwapathshala.Model.ProfileModel.ProfileModel;
+import com.eziamtech.malwapathshala.Model.language.GetLanguage;
 import com.eziamtech.malwapathshala.R;
 import com.eziamtech.malwapathshala.Util.Utility;
 import com.eziamtech.malwapathshala.Webservice.AppAPI;
@@ -181,7 +186,7 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
                 showAndHideLanguage();
                 break;
 
-            case R.id.fbEnglish:
+            /*case R.id.fbEnglish:
                 tvBlogTitle.setText(result.getTitle());
                 tvBlogInDetail.setText(stripHtml(result.getDetail()));
                 Picasso.get().load(result.getImage()).into(ivBlogImage);
@@ -196,7 +201,7 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
             case R.id.fabUrdhu:
                 changeBlogLanguage("6", result.getId());
                 showAndHideLanguage();
-                break;
+                break;*/
 
         }
     }
@@ -239,7 +244,7 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
 
     private void showAndHideLanguage() {
 
-        // set visibility
+       /* // set visibility
         if (!isAllFabVisible) {
             fbEnglish.setVisibility(View.VISIBLE);
             fabUrdhu.setVisibility(View.VISIBLE);
@@ -263,7 +268,57 @@ public class BlogDetail extends AppCompatActivity implements View.OnClickListene
         // click listener on floating action buttons
         fbEnglish.setOnClickListener(this);
         fabHindi.setOnClickListener(this);
-        fabUrdhu.setOnClickListener(this);
+        fabUrdhu.setOnClickListener(this);*/
+
+        View view = getLayoutInflater().inflate(R.layout.select_language, null);
+        RecyclerView recyclerView = view.findViewById(R.id.rvLanguageList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                .setTitle("Select your language")
+                .setView(view)
+                .setCancelable(true);
+
+        AlertDialog builder = dialog.create();
+
+        // get language list
+        Call<GetLanguage> call = BaseURL.getVideoAPI().getLanguage();
+        call.enqueue(new Callback<GetLanguage>() {
+            @Override
+            public void onResponse(Call<GetLanguage> call, Response<GetLanguage> response) {
+                try {
+                    if(response.code() == 200 && response.body().getStatus() == 200){
+                        if(response.body().getResult().size() > 0){
+                            recyclerView.setAdapter(new SelectLanguageAdapter(getApplicationContext(), response.body().getResult(), position -> {
+                                if(response.body().getResult().get(position).getLanguage().equals("English")) setEnglishLanguage();
+                                    // Toast.makeText(getApplicationContext(), response.body().getResult().get(position).getId()+" item clicked", Toast.LENGTH_SHORT).show();
+                                else {
+                                    changeBlogLanguage(response.body().getResult().get(position).getId(), result.getId());
+                                }
+                                builder.dismiss();
+                            }));
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetLanguage> call, Throwable t) {
+
+            }
+        });
+
+
+        builder.show();
+    }
+
+    private void setEnglishLanguage() {
+        tvBlogTitle.setText(result.getTitle());
+        tvBlogInDetail.setText(stripHtml(result.getDetail()));
+        Picasso.get().load(result.getImage()).into(ivBlogImage);
+
     }
 
     @Override

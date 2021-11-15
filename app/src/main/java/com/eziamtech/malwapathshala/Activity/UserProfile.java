@@ -117,7 +117,7 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
             txtCityName = findViewById(R.id.txtCityName);
             txtLeaderboard = findViewById(R.id.txtLeaderboard);
             txtStatistics = findViewById(R.id.txtStatistics);
-            txtWithdrawal = findViewById(R.id.txtWithdrawal);
+            //txtWithdrawal = findViewById(R.id.txtWithdrawal);
 
             rvRecentmatch = findViewById(R.id.rvRecentmatch);
 
@@ -159,7 +159,7 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
                 startActivity(new Intent(UserProfile.this, Statistics.class));
                 break;
 
-            case R.id.txtWithdrawal:
+          /*  case R.id.txtWithdrawal:
                 if (prefManager.getValue("fb_rewardvideo_status").equalsIgnoreCase("yes")) {
                     if (fbRewardedVideoAd != null && fbRewardedVideoAd.isAdLoaded()) {
                         fbRewardedVideoAd.show();
@@ -178,7 +178,7 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
                         startActivity(new Intent(UserProfile.this, WithdrawHistory.class));
                     }
                 }
-                break;
+                break;*/
         }
     }
 

@@ -57,7 +57,7 @@ public class Instruction extends AppCompatActivity {
 
         txtToolbarTitle.setTextColor(getResources().getColor(R.color.text_blue));
         txtBack.setBackgroundTintList(getResources().getColorStateList(R.color.text_blue));
-        txtAppname.setText("" + Html.fromHtml(prefManager.getValue("app_name")));
+      //  txtAppname.setText("" + Html.fromHtml(prefManager.getValue("app_name")));
 
         if (type.equalsIgnoreCase("Instruction")) {
             txtPolicyDesc.setText("" + Html.fromHtml(prefManager.getValue("instrucation")));
@@ -95,7 +95,7 @@ public class Instruction extends AppCompatActivity {
             lyToolbar.setVisibility(View.VISIBLE);
             txtBack = findViewById(R.id.txtBack);
             txtToolbarTitle = findViewById(R.id.txtToolbarTitle);
-            txtAppname = findViewById(R.id.txtAppname);
+           // txtAppname = findViewById(R.id.txtAppname);
             txtPolicyDesc = findViewById(R.id.txtPolicyDesc);
         } catch (Exception e) {
             Log.e("init Exception ==>", "" + e);

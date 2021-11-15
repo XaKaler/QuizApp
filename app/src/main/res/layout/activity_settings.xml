@@ -235,7 +235,7 @@
                         android:layout_height="0.5dp"
                         android:background="@color/lightGray" />
 
-                    <!--Change Language-->
+                    <!--&lt;!&ndash;Change Language&ndash;&gt;
                     <LinearLayout
                         android:id="@+id/lyChangeLanguage"
                         android:layout_width="match_parent"
@@ -278,7 +278,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/lightGray" />
+                        android:background="@color/lightGray" />-->
 
                     <!--Enable Sound-->
                     <LinearLayout
